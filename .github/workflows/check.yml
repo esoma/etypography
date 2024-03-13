@@ -41,7 +41,7 @@ jobs:
 
     - name: Test
       run: |
-        poetry run pytest --cov=emath --cov-report=xml
+        poetry run pytest --cov=etext --cov-report=xml
 
     - name: Codecov
       uses: codecov/codecov-action@v2
