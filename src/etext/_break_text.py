@@ -40,7 +40,7 @@ def break_text_icu_line(text: str) -> Generator[BreakTextChunk, None, None]:
         yield from u_break_iterator
 
 
-if system == "Windows":
+if system() == "Windows":
     _LIB_NAME = "icuuc.dll"
     _POSTFIX = ""
 else:
