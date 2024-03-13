@@ -44,9 +44,15 @@ if system() == "Windows":
     _LIB_NAME = "icuuc.dll"
     _POSTFIX = ""
 else:
-    _LIB_NAME = "libicuuc.so"
-    _uconv_result = subprocess.run(["uconv", "-V"], capture_output=True, check=True)
+    if system() == "Darwin":
+        _LIB_NAME = "/usr/local/opt/icu4c/lib/libicuuc.dylib"
+        _UCONV_NAME = "/usr/local/opt/icu4c/bin/uconv"
+    else:
+        _LIB_NAME = "libicuuc.so"
+        _UCONV_NAME = "uconv"
+    _uconv_result = subprocess.run([_UCONV_NAME, "-V"], capture_output=True, check=True)
     _POSTFIX = "_" + _uconv_result.stdout.decode("utf8").split(" ")[-1].split(".")[0]
+
 
 _icuuc = CDLL(_LIB_NAME)
 
