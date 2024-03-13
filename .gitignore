@@ -1,4 +1,6 @@
 
+.python-version
+
 *.pyc
 *.pyd
 *.egg-info
