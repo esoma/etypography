@@ -1,0 +1,197 @@
+{
+    "font": "OpenSans-Regular.ttf",
+    "size": {
+        "method": "request_pixel_size",
+        "kwargs": {
+            "height": 24
+        }
+    },
+    "layout_text_kwargs": {
+        "text": "a b c d e f g",
+        "primary_axis_alignment": "end",
+        "secondary_axis_alignment": "begin",
+        "break_text": "break_text_icu_line",
+        "max_line_size": null,
+        "line_height": 32
+    },
+    "text_layout": {
+        "position": [
+            129.8125,
+            256.0
+        ],
+        "size": [
+            126.1875,
+            32.0
+        ],
+        "lines": [
+            {
+                "position": [
+                    129.8125,
+                    256.0
+                ],
+                "size": [
+                    126.1875,
+                    32.0
+                ],
+                "glyphs": [
+                    {
+                        "character": "a",
+                        "glyph_index": 68,
+                        "position": [
+                            129.8125,
+                            288.0
+                        ],
+                        "size": [
+                            11.0,
+                            13.0
+                        ]
+                    },
+                    {
+                        "character": " ",
+                        "glyph_index": 3,
+                        "position": [
+                            143.15625,
+                            288.0
+                        ],
+                        "size": [
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "character": "b",
+                        "glyph_index": 69,
+                        "position": [
+                            149.390625,
+                            288.0
+                        ],
+                        "size": [
+                            12.0,
+                            18.0
+                        ]
+                    },
+                    {
+                        "character": " ",
+                        "glyph_index": 3,
+                        "position": [
+                            164.078125,
+                            288.0
+                        ],
+                        "size": [
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "character": "c",
+                        "glyph_index": 70,
+                        "position": [
+                            170.3125,
+                            288.0
+                        ],
+                        "size": [
+                            10.0,
+                            13.0
+                        ]
+                    },
+                    {
+                        "character": " ",
+                        "glyph_index": 3,
+                        "position": [
+                            181.8125,
+                            288.0
+                        ],
+                        "size": [
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "character": "d",
+                        "glyph_index": 71,
+                        "position": [
+                            188.046875,
+                            288.0
+                        ],
+                        "size": [
+                            12.0,
+                            18.0
+                        ]
+                    },
+                    {
+                        "character": " ",
+                        "glyph_index": 3,
+                        "position": [
+                            202.734375,
+                            288.0
+                        ],
+                        "size": [
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "character": "e",
+                        "glyph_index": 72,
+                        "position": [
+                            208.96875,
+                            288.0
+                        ],
+                        "size": [
+                            12.0,
+                            13.0
+                        ]
+                    },
+                    {
+                        "character": " ",
+                        "glyph_index": 3,
+                        "position": [
+                            222.453125,
+                            288.0
+                        ],
+                        "size": [
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "character": "f",
+                        "glyph_index": 73,
+                        "position": [
+                            228.6875,
+                            288.0
+                        ],
+                        "size": [
+                            10.0,
+                            18.0
+                        ]
+                    },
+                    {
+                        "character": " ",
+                        "glyph_index": 3,
+                        "position": [
+                            236.765625,
+                            288.0
+                        ],
+                        "size": [
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "character": "g",
+                        "glyph_index": 74,
+                        "position": [
+                            243.0,
+                            288.0
+                        ],
+                        "size": [
+                            13.0,
+                            19.0
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

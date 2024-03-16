@@ -2,11 +2,12 @@
 from . import resources
 
 # etext
+import etext
 from etext import FontFace
 from etext import FontFaceSize
+from etext import PrimaryAxisTextAlign
 from etext import RenderedGlyphFormat
-from etext import TextAlign
-from etext import break_text_icu_line
+from etext import SecondaryAxisTextAlign
 from etext import break_text_never
 from etext import character_is_normally_rendered
 
@@ -236,8 +237,9 @@ def test_layout_text_invalid_size(resource_dir, face):
 @pytest.mark.parametrize("max_line_size", [None, 100])
 @pytest.mark.parametrize("is_character_rendered", [None, MagicMock()])
 @pytest.mark.parametrize("line_height", [None, 101])
-@pytest.mark.parametrize("horizontal_alignment", [None, *TextAlign])
-@pytest.mark.parametrize("vertical_alignment", [None, *TextAlign])
+@pytest.mark.parametrize("primary_axis_alignment", [None, *PrimaryAxisTextAlign])
+@pytest.mark.parametrize("secondary_axis_alignment", [None, *SecondaryAxisTextAlign])
+@pytest.mark.parametrize("origin", [None, FVector2(-1, 1)])
 def test_layout_text(
     face,
     text,
@@ -245,8 +247,9 @@ def test_layout_text(
     max_line_size,
     is_character_rendered,
     line_height,
-    horizontal_alignment,
-    vertical_alignment,
+    primary_axis_alignment,
+    secondary_axis_alignment,
+    origin,
 ):
     size = face.request_pixel_size(height=10)
 
@@ -272,15 +275,22 @@ def test_layout_text(
     else:
         kwargs["line_height"] = expected_line_height = line_height
 
-    if horizontal_alignment is None:
-        expected_horizontal_alignment = TextAlign.BEGIN
+    if primary_axis_alignment is None:
+        expected_primary_axis_alignment = PrimaryAxisTextAlign.BEGIN
     else:
-        kwargs["horizontal_alignment"] = expected_horizontal_alignment = horizontal_alignment
+        kwargs["primary_axis_alignment"] = expected_primary_axis_alignment = primary_axis_alignment
 
-    if vertical_alignment is None:
-        expected_vertical_alignment = TextAlign.BEGIN
+    if secondary_axis_alignment is None:
+        expected_secondary_axis_alignment = SecondaryAxisTextAlign.BEGIN
     else:
-        kwargs["vertical_alignment"] = expected_vertical_alignment = vertical_alignment
+        kwargs[
+            "secondary_axis_alignment"
+        ] = expected_secondary_axis_alignment = secondary_axis_alignment
+
+    if origin is None:
+        expected_origin = FVector2(0)
+    else:
+        kwargs["origin"] = expected_origin = origin
 
     text_layout = MagicMock()
     with patch("etext._font_face._TextLayout", return_value=text_layout) as TextLayoutMock:
@@ -293,10 +303,10 @@ def test_layout_text(
         expected_max_line_size,
         expected_is_character_rendered,
         expected_line_height,
-        expected_horizontal_alignment,
-        expected_vertical_alignment,
+        expected_primary_axis_alignment,
+        expected_secondary_axis_alignment,
     )
-    text_layout.to_text_layout.assert_called_once_with()
+    text_layout.to_text_layout.assert_called_once_with(expected_origin)
     assert result is text_layout.to_text_layout.return_value
 
 
@@ -322,19 +332,32 @@ def test_text_layout(resource_dir, fixture_file_path):
     text_layout = face.layout_text(
         fixture["layout_text_kwargs"]["text"],
         face_size,
-        horizontal_alignment=TextAlign(fixture["layout_text_kwargs"]["horizontal_alignment"]),
-        vertical_alignment=TextAlign(fixture["layout_text_kwargs"]["vertical_alignment"]),
-        break_text=break_text_icu_line,
+        primary_axis_alignment=PrimaryAxisTextAlign(
+            fixture["layout_text_kwargs"]["primary_axis_alignment"]
+        ),
+        secondary_axis_alignment=SecondaryAxisTextAlign(
+            fixture["layout_text_kwargs"]["secondary_axis_alignment"]
+        ),
+        break_text=getattr(etext, fixture["layout_text_kwargs"]["break_text"]),
+        max_line_size=fixture["layout_text_kwargs"]["max_line_size"],
+        origin=FVector2(256),
+        line_height=fixture["layout_text_kwargs"]["line_height"],
     )
 
     assert text_layout == (
+        FVector2(*fixture["text_layout"]["position"]),
         FVector2(*fixture["text_layout"]["size"]),
         tuple(
             (
                 FVector2(*line["position"]),
                 FVector2(*line["size"]),
                 tuple(
-                    (glyph["character"], glyph["glyph_index"], FVector2(*glyph["position"]))
+                    (
+                        glyph["character"],
+                        glyph["glyph_index"],
+                        FVector2(*glyph["position"]),
+                        FVector2(*glyph["size"]),
+                    )
                     for glyph in line["glyphs"]
                 ),
             )

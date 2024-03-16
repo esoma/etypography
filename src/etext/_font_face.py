@@ -3,11 +3,13 @@ from __future__ import annotations
 __all__ = [
     "FontFace",
     "FontFaceSize",
+    "PrimaryAxisTextAlign",
+    "RenderedGlyph",
+    "RenderedGlyphFormat",
+    "SecondaryAxisTextAlign",
     "TextLayout",
     "TextLine",
     "TextGlyph",
-    "RenderedGlyph",
-    "RenderedGlyphFormat",
 ]
 
 
@@ -107,6 +109,15 @@ class FontFace:
             self, 0 if width is None else width, 0 if height is None else height
         )
 
+    def _get_glyph_size(self, character: int, size: FontFaceSize) -> FVector2:
+        size._use()
+        self._ft_face.load_glyph(character, 0)
+        ft_glyph = self._ft_face.glyph
+        return FVector2(
+            ft_glyph.metrics.width / 64.0,
+            ft_glyph.metrics.height / 64.0,
+        )
+
     def render_glyph(
         self,
         character: str | int,
@@ -183,15 +194,18 @@ class FontFace:
         max_line_size: int | None = None,
         is_character_rendered: Callable[[str], bool] = character_is_normally_rendered,
         line_height: int | None = None,
-        horizontal_alignment: TextAlign | None = None,
-        vertical_alignment: TextAlign | None = None,
+        primary_axis_alignment: PrimaryAxisTextAlign | None = None,
+        secondary_axis_alignment: SecondaryAxisTextAlign | None = None,
+        origin: FVector2 | None = None,
     ) -> TextLayout:
         if size.face is not self:
             raise ValueError("size is not compatible with this face")
-        if horizontal_alignment is None:
-            horizontal_alignment = TextAlign.BEGIN
-        if vertical_alignment is None:
-            vertical_alignment = TextAlign.BEGIN
+        if primary_axis_alignment is None:
+            primary_axis_alignment = PrimaryAxisTextAlign.BEGIN
+        if secondary_axis_alignment is None:
+            secondary_axis_alignment = SecondaryAxisTextAlign.BEGIN
+        if origin is None:
+            origin = FVector2(0)
 
         return _TextLayout(
             text,
@@ -200,9 +214,9 @@ class FontFace:
             max_line_size,
             is_character_rendered,
             line_height,
-            horizontal_alignment,
-            vertical_alignment,
-        ).to_text_layout()
+            primary_axis_alignment,
+            secondary_axis_alignment,
+        ).to_text_layout(origin)
 
     @property
     def fixed_sizes(self) -> Sequence[FontFaceSize]:
@@ -215,10 +229,17 @@ class FontFace:
         return self._name
 
 
-class TextAlign(StrEnum):
+class PrimaryAxisTextAlign(StrEnum):
     BEGIN = "begin"
     END = "end"
     CENTER = "center"
+
+
+class SecondaryAxisTextAlign(StrEnum):
+    BEGIN = "begin"
+    END = "end"
+    CENTER = "center"
+    BASELINE = "baseline"
 
 
 @dataclass(slots=True)
@@ -226,13 +247,18 @@ class _PositionedGlyph:
     character: str
     glyph_index: int
     position: FVector2
+    size: FVector2
     is_rendered: bool
+
+    @property
+    def extent(self) -> FVector2:
+        return self.position + self.size
 
 
 class _TextLineLayout:
-    def __init__(self, position: FVector2):
+    def __init__(self, position: FVector2, line_height: int):
         self.position = position
-        self.size = FVector2(0)
+        self.size = FVector2(0, line_height)
         self.glyphs: list[_PositionedGlyph] = []
 
     def add_glyphs(
@@ -242,10 +268,14 @@ class _TextLineLayout:
             if self.glyphs:
                 return False
         for glyph in glyphs:
-            glyph.position += self.size
+            glyph.position += self.size.xo
         self.size += advance
         self.glyphs.extend(glyphs)
         return True
+
+    @property
+    def baseline(self) -> FVector2:
+        return self.position + self.size.oy
 
     @property
     def extent(self) -> FVector2:
@@ -253,12 +283,10 @@ class _TextLineLayout:
 
     @property
     def rendered_size(self) -> FVector2:
-        size = self.size
         for glyph in reversed(self.glyphs):
-            if not glyph.is_rendered:
-                size = glyph.position
-            break
-        return size
+            if glyph.is_rendered:
+                return FVector2(glyph.extent.x, self.size.y)
+        return FVector2(0)
 
 
 class _TextLayout:
@@ -270,25 +298,31 @@ class _TextLayout:
         max_line_size: int | None,
         is_character_rendered: Callable[[str], bool],
         line_height: int | None,
-        horizontal_alignment: TextAlign,
-        vertical_alignment: TextAlign,
+        primary_axis_alignment: PrimaryAxisTextAlign,
+        secondary_axis_alignment: SecondaryAxisTextAlign,
     ):
+        self._font_face_size = size
+
         self.is_character_rendered = is_character_rendered
 
-        self.line_height = size._line_size.y if line_height is None else line_height
+        self.line_height = round(size._line_size.y) if line_height is None else line_height
         self.max_line_size = max_line_size
-        self.lines: list[_TextLineLayout] = [_TextLineLayout(FVector2(0))]
+        self.lines: list[_TextLineLayout] = [_TextLineLayout(FVector2(0), self.line_height)]
 
         self._hb_font = size._face._hb_font
         self._hb_font.scale = size._scale
         for chunk in break_text(text):
             self._add_chunk(chunk)
 
-        self._h_align(horizontal_alignment)
-        self._v_align(vertical_alignment)
+        self._h_align(primary_axis_alignment)
+        self._v_align(secondary_axis_alignment)
 
+        self.position = FVector2(
+            min(line.position.x for line in self.lines), self.lines[0].position.y
+        )
         self.size = FVector2(
-            max(line.rendered_size.x for line in self.lines), self.lines[-1].extent.y
+            max(line.rendered_size.x for line in self.lines),
+            self.lines[-1].extent.y - self.position.y,
         )
 
     def _add_chunk(self, chunk: BreakTextChunk) -> None:
@@ -307,6 +341,9 @@ class _TextLayout:
                     c,
                     info.codepoint,
                     pen_position + FVector2(pos.x_offset / 64.0, pos.y_offset / 64.0),
+                    self._font_face_size._face._get_glyph_size(
+                        info.codepoint, self._font_face_size
+                    ),
                     self.is_character_rendered(c),
                 )
             )
@@ -320,13 +357,15 @@ class _TextLayout:
         glyphs_added = self.lines[-1].add_glyphs(chunk_glyphs, advance, self.max_line_size)
 
         if not glyphs_added or chunk.force_break:
-            line = _TextLineLayout(FVector2(0, self.line_height * len(self.lines)))
+            line = _TextLineLayout(
+                FVector2(0, self.line_height * len(self.lines)), self.line_height
+            )
             self.lines.append(line)
 
             if not glyphs_added:
                 line.add_glyphs(chunk_glyphs, advance, self.max_line_size)
 
-    def _h_align(self, align: TextAlign) -> None:
+    def _h_align(self, align: PrimaryAxisTextAlign) -> None:
         getattr(self, f"_h_align_{align.value}")()
 
     def _h_align_begin(self) -> None:
@@ -334,40 +373,47 @@ class _TextLayout:
 
     def _h_align_center(self) -> None:
         for line in self.lines:
-            line.position -= line.rendered_size * 0.5
+            line.position -= line.rendered_size.xo * 0.5
 
     def _h_align_end(self) -> None:
         for line in self.lines:
-            line.position -= line.rendered_size
+            line.position -= line.rendered_size.xo
 
-    def _v_align(self, align: TextAlign) -> None:
+    def _v_align(self, align: SecondaryAxisTextAlign) -> None:
         getattr(self, f"_v_align_{align.value}")()
 
     def _v_align_begin(self) -> None:
-        begin = FVector2(0, self.line_height)
-        for line in self.lines:
-            line.position += begin
+        pass
 
     def _v_align_center(self) -> None:
-        center = FVector2(0, (self.line_height * len(self.lines) * 0.5) - self.line_height)
+        center = FVector2(0, self.line_height * len(self.lines) * 0.5)
         for line in self.lines:
             line.position -= center
 
     def _v_align_end(self) -> None:
-        end = FVector2(0, self.line_height * (len(self.lines) - 1))
+        end = FVector2(0, self.line_height * len(self.lines))
         for line in self.lines:
             line.position -= end
 
-    def to_text_layout(self) -> TextLayout:
+    def _v_align_baseline(self) -> None:
+        baseline = FVector2(0, self.line_height)
+        for line in self.lines:
+            line.position -= baseline
+
+    def to_text_layout(self, origin: FVector2) -> TextLayout:
         return TextLayout(
+            origin + self.position,
             self.size,
             tuple(
                 TextLine(
-                    line.position,
-                    line.size,
+                    origin + line.position,
+                    line.rendered_size,
                     tuple(
                         TextGlyph(
-                            glyph.character, glyph.glyph_index, line.position + glyph.position
+                            glyph.character,
+                            glyph.glyph_index,
+                            origin + line.baseline + glyph.position,
+                            glyph.size,
                         )
                         for glyph in line.glyphs
                     ),
@@ -381,6 +427,7 @@ class TextGlyph(NamedTuple):
     character: str
     glyph_index: int
     position: FVector2
+    size: FVector2
 
 
 class TextLine(NamedTuple):
@@ -390,6 +437,7 @@ class TextLine(NamedTuple):
 
 
 class TextLayout(NamedTuple):
+    position: FVector2
     size: FVector2
     lines: tuple[TextLine, ...]
 

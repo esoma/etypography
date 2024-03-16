@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 # etext
+import etext
 from etext import FontFace
-from etext import TextAlign
-from etext import break_text_icu_line
+from etext import PrimaryAxisTextAlign
+from etext import SecondaryAxisTextAlign
 
 # click
 import click
@@ -20,40 +21,80 @@ import hashlib
 from itertools import product
 import json
 from pathlib import Path
+import shutil
 
 RESOURCE_DIRECTORY = Path(__file__).parent
+TEXT_LAYOUT_DIRECTORY = RESOURCE_DIRECTORY / "text-layout"
 
-TEXT = ["abcdef", "hello\nworld"]
+TEXT = [
+    "abcdef",
+    "hello\nworld",
+    "a b c d e f g",
+]
 FONT_FILES = ["OpenSans-Regular.ttf"]
+BREAK_TEXT = ["break_text_icu_line", "break_text_never"]
+FONT_SIZE = [
+    ("request_pixel_size", {"height": 12}),
+    ("request_pixel_size", {"height": 24}),
+]
+MAX_LINE_SIZE = [None, 32, 99999]
+LINE_HEIGHT = [None, 32]
 IMAGE_SIZE = 512
-HALF_IMAGE_SIZE = 512 / 2
+HALF_IMAGE_SIZE = IMAGE_SIZE / 2
 
 
 @click.command()
 def main():
+    shutil.rmtree(TEXT_LAYOUT_DIRECTORY)
+    TEXT_LAYOUT_DIRECTORY.mkdir()
+
     for (
         text,
         font,
-        h_align,
-        v_align,
-    ) in product(TEXT, FONT_FILES, TextAlign, TextAlign):
+        break_text_name,
+        max_line_size,
+        p_align,
+        s_align,
+        (font_size_method_name, font_size_kwargs),
+        line_height,
+    ) in product(
+        TEXT,
+        FONT_FILES,
+        BREAK_TEXT,
+        MAX_LINE_SIZE,
+        PrimaryAxisTextAlign,
+        SecondaryAxisTextAlign,
+        FONT_SIZE,
+        LINE_HEIGHT,
+    ):
         sha256 = hashlib.sha256()
         sha256.update(text.encode("utf8"))
         sha256.update(font.encode("utf8"))
-        sha256.update(h_align.encode("utf8"))
-        sha256.update(v_align.encode("utf8"))
+        sha256.update(break_text_name.encode("utf8"))
+        sha256.update(str(max_line_size).encode("utf8"))
+        sha256.update(p_align.encode("utf8"))
+        sha256.update(s_align.encode("utf8"))
+        sha256.update(font_size_method_name.encode("utf8"))
+        sha256.update(str(font_size_kwargs).encode("utf8"))
+        sha256.update(str(line_height).encode("utf8"))
         name = sha256.hexdigest()
 
         with open(RESOURCE_DIRECTORY / font, "rb") as font_file:
             font_face = FontFace(font_file)
 
-        font_face_size = font_face.request_pixel_size(height=12)
+        break_text = getattr(etext, break_text_name)
+
+        font_face_method = getattr(font_face, font_size_method_name)
+        font_face_size = font_face_method(**font_size_kwargs)
         text_layout = font_face.layout_text(
             text,
             font_face_size,
-            horizontal_alignment=h_align,
-            vertical_alignment=v_align,
-            break_text=break_text_icu_line,
+            primary_axis_alignment=p_align,
+            secondary_axis_alignment=s_align,
+            max_line_size=max_line_size,
+            break_text=break_text,
+            origin=FVector2(HALF_IMAGE_SIZE),
+            line_height=line_height,
         )
 
         image = Image.new(mode="RGB", size=(IMAGE_SIZE, IMAGE_SIZE))
@@ -66,29 +107,49 @@ def main():
             image_glyph = Image.frombytes("L", tuple(rendered_glyph.size), rendered_glyph.data)
             image.paste(
                 image_glyph,
-                tuple(
-                    round(d)
-                    for d in (
-                        FVector2(HALF_IMAGE_SIZE) + text_glyph.position + rendered_glyph.bearing
-                    )
-                ),
+                tuple(round(d) for d in (text_glyph.position + rendered_glyph.bearing)),
             )
-        image.save(RESOURCE_DIRECTORY / "text-layout" / f"{name}.png")
+
+        for line in text_layout.lines:
+            draw.rectangle(
+                (
+                    round(line.position.x),
+                    round(line.position.y),
+                    round(line.position.x + line.size.x),
+                    round(line.position.y + line.size.y),
+                ),
+                outline="red",
+                width=2,
+            )
+
+        draw.rectangle(
+            (
+                round(text_layout.position.x),
+                round(text_layout.position.y),
+                round(text_layout.position.x + text_layout.size.x),
+                round(text_layout.position.y + text_layout.size.y),
+            ),
+            outline="green",
+        )
+
+        image.save(TEXT_LAYOUT_DIRECTORY / f"{name}.png")
 
         data = {
             "font": font,
             "size": {
-                "method": "request_pixel_size",
-                "kwargs": {
-                    "height": 12,
-                },
+                "method": font_size_method_name,
+                "kwargs": font_size_kwargs,
             },
             "layout_text_kwargs": {
                 "text": text,
-                "horizontal_alignment": h_align,
-                "vertical_alignment": v_align,
+                "primary_axis_alignment": p_align,
+                "secondary_axis_alignment": s_align,
+                "break_text": break_text_name,
+                "max_line_size": max_line_size,
+                "line_height": line_height,
             },
             "text_layout": {
+                "position": tuple(text_layout.position),
                 "size": tuple(text_layout.size),
                 "lines": [
                     {
@@ -99,6 +160,7 @@ def main():
                                 "character": glyph.character,
                                 "glyph_index": glyph.glyph_index,
                                 "position": tuple(glyph.position),
+                                "size": tuple(glyph.size),
                             }
                             for glyph in line.glyphs
                         ],
@@ -107,7 +169,7 @@ def main():
                 ],
             },
         }
-        with open(RESOURCE_DIRECTORY / "text-layout" / f"{name}.json", "w", encoding="utf8") as f:
+        with open(TEXT_LAYOUT_DIRECTORY / f"{name}.json", "w", encoding="utf8") as f:
             json.dump(data, f, indent="    ")
 
 
