@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+
+# etext
+from etext import FontFace
+from etext import TextAlign
+from etext import break_text_icu_line
+
+# click
+import click
+
+# emath
+from emath import FVector2
+
+# pillow
+from PIL import Image
+from PIL import ImageDraw
+
+# python
+import hashlib
+from itertools import product
+import json
+from pathlib import Path
+
+RESOURCE_DIRECTORY = Path(__file__).parent
+
+TEXT = ["abcdef", "hello\nworld"]
+FONT_FILES = ["OpenSans-Regular.ttf"]
+IMAGE_SIZE = 512
+HALF_IMAGE_SIZE = 512 / 2
+
+
+@click.command()
+def main():
+    for (
+        text,
+        font,
+        h_align,
+        v_align,
+    ) in product(TEXT, FONT_FILES, TextAlign, TextAlign):
+        sha256 = hashlib.sha256()
+        sha256.update(text.encode("utf8"))
+        sha256.update(font.encode("utf8"))
+        sha256.update(h_align.encode("utf8"))
+        sha256.update(v_align.encode("utf8"))
+        name = sha256.hexdigest()
+
+        with open(RESOURCE_DIRECTORY / font, "rb") as font_file:
+            font_face = FontFace(font_file)
+
+        font_face_size = font_face.request_pixel_size(height=12)
+        text_layout = font_face.layout_text(
+            text,
+            font_face_size,
+            horizontal_alignment=h_align,
+            vertical_alignment=v_align,
+            break_text=break_text_icu_line,
+        )
+
+        image = Image.new(mode="RGB", size=(IMAGE_SIZE, IMAGE_SIZE))
+        draw = ImageDraw.Draw(image)
+        draw.line((HALF_IMAGE_SIZE, 0, HALF_IMAGE_SIZE, IMAGE_SIZE), width=1)
+        draw.line((0, HALF_IMAGE_SIZE, IMAGE_SIZE, HALF_IMAGE_SIZE), width=1)
+
+        for text_glyph in text_layout.glyphs:
+            rendered_glyph = font_face.render_glyph(text_glyph.glyph_index, font_face_size)
+            image_glyph = Image.frombytes("L", tuple(rendered_glyph.size), rendered_glyph.data)
+            image.paste(
+                image_glyph,
+                tuple(
+                    round(d)
+                    for d in (
+                        FVector2(HALF_IMAGE_SIZE) + text_glyph.position + rendered_glyph.bearing
+                    )
+                ),
+            )
+        image.save(RESOURCE_DIRECTORY / "text-layout" / f"{name}.png")
+
+        data = {
+            "font": font,
+            "size": {
+                "method": "request_pixel_size",
+                "kwargs": {
+                    "height": 12,
+                },
+            },
+            "layout_text_kwargs": {
+                "text": text,
+                "horizontal_alignment": h_align,
+                "vertical_alignment": v_align,
+            },
+            "text_layout": {
+                "size": tuple(text_layout.size),
+                "lines": [
+                    {
+                        "position": tuple(line.position),
+                        "size": tuple(line.size),
+                        "glyphs": [
+                            {
+                                "character": glyph.character,
+                                "glyph_index": glyph.glyph_index,
+                                "position": tuple(glyph.position),
+                            }
+                            for glyph in line.glyphs
+                        ],
+                    }
+                    for line in text_layout.lines
+                ],
+            },
+        }
+        with open(RESOURCE_DIRECTORY / "text-layout" / f"{name}.json", "w", encoding="utf8") as f:
+            json.dump(data, f, indent="    ")
+
+
+if __name__ == "__main__":
+    main()

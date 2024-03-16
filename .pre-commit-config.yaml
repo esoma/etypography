@@ -23,9 +23,11 @@ repos:
   rev: 6.1.0
 - hooks:
   - additional_dependencies:
-    - jinja2==3.1.2
+    - emath==0.1.10
+    - types-Pillow==10.1.0.20240106
+    - click==8.1.7
     args: []
     id: mypy
-    exclude: ^(test/).*
+    exclude: ^(test|examples)/.*
   repo: https://github.com/pre-commit/mirrors-mypy
   rev: v1.6.1
