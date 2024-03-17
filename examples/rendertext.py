@@ -2,7 +2,8 @@ __all__ = ()
 
 # etext
 from etext import FontFace
-from etext import TextAlign
+from etext import PrimaryAxisTextAlign
+from etext import SecondaryAxisTextAlign
 from etext import break_text_icu_line
 
 # click
@@ -66,8 +67,12 @@ def get_pixel_size(ctx, param, value):
     type=click.INT,
     help="The height of a line. Defaults to a value picked by the font.",
 )
-@click.option("--horizontal-alignment", type=click.Choice(TextAlign), show_default=True)
-@click.option("--vertical-alignment", type=click.Choice(TextAlign), show_default=True)
+@click.option(
+    "--primary-axis-alignment", type=click.Choice(PrimaryAxisTextAlign), show_default=True
+)
+@click.option(
+    "--secondary-axis-alignment", type=click.Choice(SecondaryAxisTextAlign), show_default=True
+)
 def main(
     text,
     font,
@@ -76,8 +81,8 @@ def main(
     height,
     max_line_size,
     line_height,
-    horizontal_alignment,
-    vertical_alignment,
+    primary_axis_alignment,
+    secondary_axis_alignment,
 ):
     with open(font, "rb") as font_file:
         font_face = FontFace(font_file)
@@ -94,13 +99,13 @@ def main(
         break_text=break_text_icu_line,
         max_line_size=max_line_size,
         line_height=line_height,
-        horizontal_alignment=horizontal_alignment,
-        vertical_alignment=vertical_alignment,
+        primary_axis_alignment=primary_axis_alignment,
+        secondary_axis_alignment=secondary_axis_alignment,
     )
 
     image_size = (
-        int(text_layout.size.x) if width is None else width,
-        int(text_layout.size.y) if height is None else height,
+        int(text_layout.bounding_box.size.x) if width is None else width,
+        int(text_layout.bounding_box.size.y) if height is None else height,
     )
     image = Image.new(mode="RGB", size=image_size)
 
@@ -108,7 +113,8 @@ def main(
         rendered_glyph = font_face.render_glyph(text_glyph.glyph_index, font_face_size)
         image_glyph = Image.frombytes("L", tuple(rendered_glyph.size), rendered_glyph.data)
         image.paste(
-            image_glyph, tuple(int(d) for d in text_glyph.position + rendered_glyph.bearing)
+            image_glyph,
+            tuple(int(d) for d in text_glyph.bounding_box.position + rendered_glyph.bearing),
         )
     image.show()
 

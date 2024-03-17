@@ -90,6 +90,22 @@ files = [
 toml = ["tomli"]
 
 [[package]]
+name = "egeometry"
+version = "0.2.0"
+description = "Python geometry library."
+optional = false
+python-versions = ">=3.12,<4.0"
+files = [
+    {file = "egeometry-0.2.0-cp312-cp312-macosx_12_0_x86_64.whl", hash = "sha256:f36a64f3a8f7ce29ac66146d9a2fce8a0ede2a17fa7989308497e23c5d1dba23"},
+    {file = "egeometry-0.2.0-cp312-cp312-manylinux_2_35_x86_64.whl", hash = "sha256:379a867666ac51286c49f8c26a1e4e39fb5592b13d8a38beeb7650e7ae7e1f41"},
+    {file = "egeometry-0.2.0-cp312-cp312-win_amd64.whl", hash = "sha256:50afd3015e4ed2c57f4ee245102941699749425df9b9cd5a1097eb654cd077f8"},
+    {file = "egeometry-0.2.0.tar.gz", hash = "sha256:6cda18648ca6c79c0da5c2e3f7b27e28ffbb4083d7d60047611bef5887b51c34"},
+]
+
+[package.dependencies]
+emath = ">=0.1.10,<0.2.0"
+
+[[package]]
 name = "emath"
 version = "0.1.10"
 description = "Fast immutable math primitives."
@@ -348,4 +364,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "80de538af48f21b4b6ea79723b43a4413bfd764242159c558c4e7058002fa513"
+content-hash = "fb4e17f54e73df3ebe7d3b7593837904335acaa05676377f082b027b958bbd1f"

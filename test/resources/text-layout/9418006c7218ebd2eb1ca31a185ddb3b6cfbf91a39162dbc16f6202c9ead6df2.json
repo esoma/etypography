@@ -95,18 +95,6 @@
                         ]
                     },
                     {
-                        "character": "\n",
-                        "glyph_index": 0,
-                        "position": [
-                            180.6875,
-                            288.0
-                        ],
-                        "size": [
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
                         "character": "w",
                         "glyph_index": 90,
                         "position": [

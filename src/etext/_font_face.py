@@ -19,6 +19,9 @@ from ._break_text import BreakTextChunk
 from ._break_text import break_text_never
 from ._unicode import character_is_normally_rendered
 
+# egeometry
+from egeometry import FRectangle2d
+
 # emath
 from emath import FVector2
 from emath import UVector2
@@ -197,7 +200,7 @@ class FontFace:
         primary_axis_alignment: PrimaryAxisTextAlign | None = None,
         secondary_axis_alignment: SecondaryAxisTextAlign | None = None,
         origin: FVector2 | None = None,
-    ) -> TextLayout:
+    ) -> TextLayout | None:
         if size.face is not self:
             raise ValueError("size is not compatible with this face")
         if primary_axis_alignment is None:
@@ -400,45 +403,43 @@ class _TextLayout:
         for line in self.lines:
             line.position -= baseline
 
-    def to_text_layout(self, origin: FVector2) -> TextLayout:
+    def to_text_layout(self, origin: FVector2) -> TextLayout | None:
+        if not self.size:
+            return None
         return TextLayout(
-            origin + self.position,
-            self.size,
+            FRectangle2d(origin + self.position, self.size),
             tuple(
                 TextLine(
-                    origin + line.position,
-                    line.rendered_size,
+                    FRectangle2d(origin + line.position, line.rendered_size),
                     tuple(
                         TextGlyph(
+                            FRectangle2d(origin + line.baseline + glyph.position, glyph.size),
                             glyph.character,
                             glyph.glyph_index,
-                            origin + line.baseline + glyph.position,
-                            glyph.size,
                         )
                         for glyph in line.glyphs
+                        if glyph.is_rendered and glyph.size
                     ),
                 )
                 for line in self.lines
+                if line.rendered_size
             ),
         )
 
 
 class TextGlyph(NamedTuple):
+    bounding_box: FRectangle2d
     character: str
     glyph_index: int
-    position: FVector2
-    size: FVector2
 
 
 class TextLine(NamedTuple):
-    position: FVector2
-    size: FVector2
+    bounding_box: FRectangle2d
     glyphs: tuple[TextGlyph, ...]
 
 
 class TextLayout(NamedTuple):
-    position: FVector2
-    size: FVector2
+    bounding_box: FRectangle2d
     lines: tuple[TextLine, ...]
 
     @property

@@ -24,6 +24,7 @@ repos:
 - hooks:
   - additional_dependencies:
     - emath==0.1.10
+    - egeometry==0.2.0
     - types-Pillow==10.1.0.20240106
     - click==8.1.7
     args: []

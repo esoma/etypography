@@ -30,6 +30,8 @@ TEXT = [
     "abcdef",
     "hello\nworld",
     "a b c d e f g",
+    "\nhello\nworld\n",
+    " \n ",
 ]
 FONT_FILES = ["OpenSans-Regular.ttf"]
 BREAK_TEXT = ["break_text_icu_line", "break_text_never"]
@@ -102,37 +104,39 @@ def main():
         draw.line((HALF_IMAGE_SIZE, 0, HALF_IMAGE_SIZE, IMAGE_SIZE), width=1)
         draw.line((0, HALF_IMAGE_SIZE, IMAGE_SIZE, HALF_IMAGE_SIZE), width=1)
 
-        for text_glyph in text_layout.glyphs:
-            rendered_glyph = font_face.render_glyph(text_glyph.glyph_index, font_face_size)
-            image_glyph = Image.frombytes("L", tuple(rendered_glyph.size), rendered_glyph.data)
-            image.paste(
-                image_glyph,
-                tuple(round(d) for d in (text_glyph.position + rendered_glyph.bearing)),
-            )
+        if text_layout is not None:
+            for text_glyph in text_layout.glyphs:
+                rendered_glyph = font_face.render_glyph(text_glyph.glyph_index, font_face_size)
+                image_glyph = Image.frombytes("L", tuple(rendered_glyph.size), rendered_glyph.data)
+                image.paste(
+                    image_glyph,
+                    tuple(
+                        round(d)
+                        for d in (text_glyph.bounding_box.position + rendered_glyph.bearing)
+                    ),
+                )
 
-        for line in text_layout.lines:
+            for line in text_layout.lines:
+                draw.rectangle(
+                    (
+                        round(line.bounding_box.position.x),
+                        round(line.bounding_box.position.y),
+                        round(line.bounding_box.extent.x),
+                        round(line.bounding_box.extent.y),
+                    ),
+                    outline="red",
+                    width=2,
+                )
+
             draw.rectangle(
                 (
-                    round(line.position.x),
-                    round(line.position.y),
-                    round(line.position.x + line.size.x),
-                    round(line.position.y + line.size.y),
+                    round(text_layout.bounding_box.position.x),
+                    round(text_layout.bounding_box.position.y),
+                    round(text_layout.bounding_box.extent.x),
+                    round(text_layout.bounding_box.extent.y),
                 ),
-                outline="red",
-                width=2,
+                outline="green",
             )
-
-        draw.rectangle(
-            (
-                round(text_layout.position.x),
-                round(text_layout.position.y),
-                round(text_layout.position.x + text_layout.size.x),
-                round(text_layout.position.y + text_layout.size.y),
-            ),
-            outline="green",
-        )
-
-        image.save(TEXT_LAYOUT_DIRECTORY / f"{name}.png")
 
         data = {
             "font": font,
@@ -149,26 +153,30 @@ def main():
                 "line_height": line_height,
             },
             "text_layout": {
-                "position": tuple(text_layout.position),
-                "size": tuple(text_layout.size),
+                "position": tuple(text_layout.bounding_box.position),
+                "size": tuple(text_layout.bounding_box.size),
                 "lines": [
                     {
-                        "position": tuple(line.position),
-                        "size": tuple(line.size),
+                        "position": tuple(line.bounding_box.position),
+                        "size": tuple(line.bounding_box.size),
                         "glyphs": [
                             {
                                 "character": glyph.character,
                                 "glyph_index": glyph.glyph_index,
-                                "position": tuple(glyph.position),
-                                "size": tuple(glyph.size),
+                                "position": tuple(glyph.bounding_box.position),
+                                "size": tuple(glyph.bounding_box.size),
                             }
                             for glyph in line.glyphs
                         ],
                     }
                     for line in text_layout.lines
                 ],
-            },
+            }
+            if text_layout
+            else None,
         }
+
+        image.save(TEXT_LAYOUT_DIRECTORY / f"{name}.png")
         with open(TEXT_LAYOUT_DIRECTORY / f"{name}.json", "w", encoding="utf8") as f:
             json.dump(data, f, indent="    ")
 

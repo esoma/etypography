@@ -1,0 +1,18 @@
+{
+    "font": "OpenSans-Regular.ttf",
+    "size": {
+        "method": "request_pixel_size",
+        "kwargs": {
+            "height": 12
+        }
+    },
+    "layout_text_kwargs": {
+        "text": " \n ",
+        "primary_axis_alignment": "end",
+        "secondary_axis_alignment": "end",
+        "break_text": "break_text_icu_line",
+        "max_line_size": 32,
+        "line_height": null
+    },
+    "text_layout": null
+}

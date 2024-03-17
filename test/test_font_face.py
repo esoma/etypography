@@ -11,6 +11,9 @@ from etext import SecondaryAxisTextAlign
 from etext import break_text_never
 from etext import character_is_normally_rendered
 
+# egeometry
+from egeometry import FRectangle2d
+
 # emath
 from emath import FVector2
 from emath import UVector2
@@ -344,23 +347,26 @@ def test_text_layout(resource_dir, fixture_file_path):
         line_height=fixture["layout_text_kwargs"]["line_height"],
     )
 
-    assert text_layout == (
-        FVector2(*fixture["text_layout"]["position"]),
-        FVector2(*fixture["text_layout"]["size"]),
-        tuple(
-            (
-                FVector2(*line["position"]),
-                FVector2(*line["size"]),
-                tuple(
-                    (
-                        glyph["character"],
-                        glyph["glyph_index"],
-                        FVector2(*glyph["position"]),
-                        FVector2(*glyph["size"]),
-                    )
-                    for glyph in line["glyphs"]
-                ),
-            )
-            for line in fixture["text_layout"]["lines"]
-        ),
-    )
+    if text_layout is None:
+        assert fixture["text_layout"] is None
+    else:
+        assert text_layout == (
+            FRectangle2d(
+                FVector2(*fixture["text_layout"]["position"]),
+                FVector2(*fixture["text_layout"]["size"]),
+            ),
+            tuple(
+                (
+                    FRectangle2d(FVector2(*line["position"]), FVector2(*line["size"])),
+                    tuple(
+                        (
+                            FRectangle2d(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
+                            glyph["character"],
+                            glyph["glyph_index"],
+                        )
+                        for glyph in line["glyphs"]
+                    ),
+                )
+                for line in fixture["text_layout"]["lines"]
+            ),
+        )

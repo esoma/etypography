@@ -1,0 +1,40 @@
+{
+    "font": "OpenSans-Regular.ttf",
+    "size": {
+        "method": "request_pixel_size",
+        "kwargs": {
+            "height": 12
+        }
+    },
+    "layout_text_kwargs": {
+        "text": " \n ",
+        "primary_axis_alignment": "end",
+        "secondary_axis_alignment": "baseline",
+        "break_text": "break_text_never",
+        "max_line_size": null,
+        "line_height": 32
+    },
+    "text_layout": {
+        "position": [
+            245.671875,
+            224.0
+        ],
+        "size": [
+            10.328125,
+            32.0
+        ],
+        "lines": [
+            {
+                "position": [
+                    245.671875,
+                    224.0
+                ],
+                "size": [
+                    10.328125,
+                    32.0
+                ],
+                "glyphs": []
+            }
+        ]
+    }
+}
