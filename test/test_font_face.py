@@ -370,3 +370,12 @@ def test_text_layout(resource_dir, fixture_file_path):
                 for line in fixture["text_layout"]["lines"]
             ),
         )
+        assert tuple(text_layout.glyphs) == tuple(
+            (
+                FRectangle2d(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
+                glyph["character"],
+                glyph["glyph_index"],
+            )
+            for line in fixture["text_layout"]["lines"]
+            for glyph in line["glyphs"]
+        )
