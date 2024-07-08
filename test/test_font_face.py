@@ -1,15 +1,15 @@
-# etext
+# etypography
 from . import resources
 
-# etext
-import etext
-from etext import FontFace
-from etext import FontFaceSize
-from etext import PrimaryAxisTextAlign
-from etext import RenderedGlyphFormat
-from etext import SecondaryAxisTextAlign
-from etext import break_text_never
-from etext import character_is_normally_rendered
+# etypography
+import etypography
+from etypography import FontFace
+from etypography import FontFaceSize
+from etypography import PrimaryAxisTextAlign
+from etypography import RenderedGlyphFormat
+from etypography import SecondaryAxisTextAlign
+from etypography import break_text_never
+from etypography import character_is_normally_rendered
 
 # egeometry
 from egeometry import FRectangle2d
@@ -296,7 +296,7 @@ def test_layout_text(
         kwargs["origin"] = expected_origin = origin
 
     text_layout = MagicMock()
-    with patch("etext._font_face._TextLayout", return_value=text_layout) as TextLayoutMock:
+    with patch("etypography._font_face._TextLayout", return_value=text_layout) as TextLayoutMock:
         result = face.layout_text(text, size, **kwargs)
 
     TextLayoutMock.assert_called_once_with(
@@ -341,7 +341,7 @@ def test_text_layout(resource_dir, fixture_file_path):
         secondary_axis_alignment=SecondaryAxisTextAlign(
             fixture["layout_text_kwargs"]["secondary_axis_alignment"]
         ),
-        break_text=getattr(etext, fixture["layout_text_kwargs"]["break_text"]),
+        break_text=getattr(etypography, fixture["layout_text_kwargs"]["break_text"]),
         max_line_size=fixture["layout_text_kwargs"]["max_line_size"],
         origin=FVector2(256),
         line_height=fixture["layout_text_kwargs"]["line_height"],

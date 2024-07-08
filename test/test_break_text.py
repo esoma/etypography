@@ -1,7 +1,7 @@
-# etext
-from etext import BreakTextChunk
-from etext import break_text_icu_line
-from etext import break_text_never
+# etypography
+from etypography import BreakTextChunk
+from etypography import break_text_icu_line
+from etypography import break_text_never
 
 # pytest
 import pytest

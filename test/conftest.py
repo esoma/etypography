@@ -1,4 +1,4 @@
-# etext
+# etypography
 from . import resources
 
 # pytest

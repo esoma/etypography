@@ -1,10 +1,10 @@
 __all__ = ()
 
-# etext
-from etext import FontFace
-from etext import PrimaryAxisTextAlign
-from etext import SecondaryAxisTextAlign
-from etext import break_text_icu_line
+# etypography
+from etypography import FontFace
+from etypography import PrimaryAxisTextAlign
+from etypography import SecondaryAxisTextAlign
+from etypography import break_text_icu_line
 
 # click
 import click

@@ -1,5 +1,5 @@
-# etext
-from etext import character_is_normally_rendered
+# etypography
+from etypography import character_is_normally_rendered
 
 # pytest
 import pytest

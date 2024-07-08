@@ -11,7 +11,7 @@ __all__ = [
     "SecondaryAxisTextAlign",
 ]
 
-# etext
+# etypography
 from ._break_text import BreakText
 from ._break_text import BreakTextChunk
 from ._break_text import break_text_icu_line
