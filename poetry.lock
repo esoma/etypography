@@ -107,15 +107,19 @@ emath = ">=0.1.10,<0.2.0"
 
 [[package]]
 name = "emath"
-version = "0.1.11"
+version = "0.1.12"
 description = "Fast immutable math primitives."
 optional = false
 python-versions = "<4.0,>=3.12"
 files = [
-    {file = "emath-0.1.11-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:bfa3ec78c0cd66917da2d8e910387d600dcdedb57289ae36a4899981e3469453"},
-    {file = "emath-0.1.11-cp312-cp312-manylinux_2_35_x86_64.whl", hash = "sha256:0752857b0fe190315ea12c95407c2f132d418bb808b21f799010f3f418bc2145"},
-    {file = "emath-0.1.11-cp312-cp312-win_amd64.whl", hash = "sha256:7501dedd3340c3a796a80673341a750f51b64cb9e849b300a7412e9981aebb18"},
-    {file = "emath-0.1.11.tar.gz", hash = "sha256:210aee7bdb2dc396cc54b86783730fe2c6518ce625b0ed7d7600c2aced7c6195"},
+    {file = "emath-0.1.12-cp312-cp312-macosx_13_0_x86_64.whl", hash = "sha256:0f3625c020687f508fb17bd3b60c90b23d390dba2bdc087f056514a9b485a18f"},
+    {file = "emath-0.1.12-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:90e155527c5d4d95cc83aec5a3d6703b47e832f87cd7063b6f2bd02cbb065a2a"},
+    {file = "emath-0.1.12-cp312-cp312-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:e0e5bf7839e28992033214ece7246923dae12bc16d47289980b6f4413373427c"},
+    {file = "emath-0.1.12-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:3c2034e6a8f0a908da8d84c5cc846635892a690bcc14b6215573848cb266ec19"},
+    {file = "emath-0.1.12-cp312-cp312-musllinux_1_2_i686.whl", hash = "sha256:8945c93bd9fd46e7852c092af32c2bf21c7129533085f1c7fe3c8a56ee9d3422"},
+    {file = "emath-0.1.12-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:b2e9f4515bddebe523a32fee207f1a0439cf8e338ac3af2d2d9607fb83f6a295"},
+    {file = "emath-0.1.12-cp312-cp312-win32.whl", hash = "sha256:0b82db2f975f3366160e44881934562fd0c7dca5695ce0905630d4895dca42b7"},
+    {file = "emath-0.1.12-cp312-cp312-win_amd64.whl", hash = "sha256:9cfc3442e480e4a5cd8fd6523b0a931e148eb4fccb585c21fdabd394142f32d2"},
 ]
 
 [[package]]
@@ -364,4 +368,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "1368810e343a7a610f45061899f7e08def60ac83cb09a338387334105c90a3a8"
+content-hash = "58a43dcf88482deea4b2d15f526e9a68840ca55241b06fc6a6b51f3f8fd195ff"
