@@ -1,6 +1,7 @@
 __all__ = ()
 
 # etypography
+from etypography import Font
 from etypography import FontFace
 from etypography import PrimaryAxisTextAlign
 from etypography import SecondaryAxisTextAlign
@@ -93,9 +94,10 @@ def main(
     elif size_type == "pt":
         font_face_size = font_face.request_point_size(height=size_value)
 
-    text_layout = font_face.layout_text(
+    font = Font(font_face_size)
+
+    text_layout = font.layout_text(
         text,
-        font_face_size,
         break_text=break_text_icu_line,
         max_line_size=max_line_size,
         line_height=line_height,
