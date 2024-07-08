@@ -11,6 +11,7 @@ from ctypes import c_int
 from ctypes import c_int32
 from ctypes import c_int64
 from ctypes import c_void_p
+from pathlib import Path
 from platform import system
 import subprocess
 from typing import Any
@@ -45,8 +46,15 @@ if system() == "Windows":
     _POSTFIX = ""
 else:
     if system() == "Darwin":
-        _LIB_NAME = "/usr/local/opt/icu4c/lib/libicuuc.dylib"
-        _UCONV_NAME = "/usr/local/opt/icu4c/bin/uconv"
+        _BREW_ICU4C = Path("/usr/local/Cellar/icu4c")
+        if _BREW_ICU4C.exists():
+            _LATEST_BREW_ICU4C_VERSION = sorted(v.name for v in _BREW_ICU4C.iterdir())[-1]
+            _LATEST_BREW_ICU4C = _BREW_ICU4C / _LATEST_BREW_ICU4C_VERSION
+            _LIB_NAME = str(_LATEST_BREW_ICU4C / "lib/libicuuc.dylib")
+            _UCONV_NAME = str(_LATEST_BREW_ICU4C / "bin/uconv")
+        else:
+            _LIB_NAME = "/usr/local/opt/icu4c/lib/libicuuc.dylib"
+            _UCONV_NAME = "/usr/local/opt/icu4c/bin/uconv"
     else:
         _LIB_NAME = "libicuuc.so"
         _UCONV_NAME = "uconv"
