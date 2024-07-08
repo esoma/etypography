@@ -11,6 +11,7 @@ from ctypes import c_int
 from ctypes import c_int32
 from ctypes import c_int64
 from ctypes import c_void_p
+import os
 from platform import system
 import subprocess
 from typing import Any
@@ -45,8 +46,9 @@ if system() == "Windows":
     _POSTFIX = ""
 else:
     if system() == "Darwin":
-        _LIB_NAME = "/usr/local/opt/icu4c/lib/libicuuc.dylib"
-        _UCONV_NAME = "/usr/local/opt/icu4c/bin/uconv"
+        _HOMEBREW_REPOSITORY = os.environ.get("HOMEBREW_REPOSITORY", "/usr/local")
+        _LIB_NAME = f"{_HOMEBREW_REPOSITORY}/opt/icu4c/lib/libicuuc.dylib"
+        _UCONV_NAME = f"{_HOMEBREW_REPOSITORY}/opt/icu4c/bin/uconv"
     else:
         _LIB_NAME = "libicuuc.so"
         _UCONV_NAME = "uconv"
