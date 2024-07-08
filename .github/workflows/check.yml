@@ -32,6 +32,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
         architecture: ${{ matrix.python-arch }}
 
+    - name: Install icu4c
+      if: runner.os == 'macOS'
+      run: |
+        brew install icu4c
+
     - name: Install Poetry
       uses: snok/install-poetry@v1
 
