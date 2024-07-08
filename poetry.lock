@@ -107,15 +107,15 @@ emath = ">=0.1.10,<0.2.0"
 
 [[package]]
 name = "emath"
-version = "0.1.10"
+version = "0.1.11"
 description = "Fast immutable math primitives."
 optional = false
-python-versions = ">=3.12,<4.0"
+python-versions = "<4.0,>=3.12"
 files = [
-    {file = "emath-0.1.10-cp312-cp312-macosx_12_0_x86_64.whl", hash = "sha256:1968d3651afeb0d242848f2b01bc01dd908a447c5cd4ffc518c16925bf337386"},
-    {file = "emath-0.1.10-cp312-cp312-manylinux_2_35_x86_64.whl", hash = "sha256:4b047d4c2e099b7306d624e0774af2ae5ab7b8ea82a07329b54bc2189dd99d49"},
-    {file = "emath-0.1.10-cp312-cp312-win_amd64.whl", hash = "sha256:1f1ee04528bc9bb29324e9f8d4e063d8661aa0241f00effb934ac94e8fd7ed75"},
-    {file = "emath-0.1.10.tar.gz", hash = "sha256:aa551f0dd2413d06feddfb853ddcc63c2860404028f5a3c0dc826d8a0c33fb2c"},
+    {file = "emath-0.1.11-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:bfa3ec78c0cd66917da2d8e910387d600dcdedb57289ae36a4899981e3469453"},
+    {file = "emath-0.1.11-cp312-cp312-manylinux_2_35_x86_64.whl", hash = "sha256:0752857b0fe190315ea12c95407c2f132d418bb808b21f799010f3f418bc2145"},
+    {file = "emath-0.1.11-cp312-cp312-win_amd64.whl", hash = "sha256:7501dedd3340c3a796a80673341a750f51b64cb9e849b300a7412e9981aebb18"},
+    {file = "emath-0.1.11.tar.gz", hash = "sha256:210aee7bdb2dc396cc54b86783730fe2c6518ce625b0ed7d7600c2aced7c6195"},
 ]
 
 [[package]]
@@ -364,4 +364,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "fb4e17f54e73df3ebe7d3b7593837904335acaa05676377f082b027b958bbd1f"
+content-hash = "1368810e343a7a610f45061899f7e08def60ac83cb09a338387334105c90a3a8"

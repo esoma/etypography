@@ -8,7 +8,7 @@ authors = ["Erik Soma <stillusingirc@gmail.com>"]
 python = "^3.12"
 uharfbuzz = "^0.39.0"
 freetype-py = "^2.4.0"
-emath = "^0.1.10"
+emath = "0.1.11"
 egeometry = "^0.2.0"
 
 [tool.poetry.group.dev.dependencies]
