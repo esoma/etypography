@@ -126,8 +126,10 @@ class FontFace:
         character: str | int,
         size: FontFaceSize,
         *,
-        format: RenderedGlyphFormat = RenderedGlyphFormat.ALPHA,
+        format: RenderedGlyphFormat | None = None,
     ) -> RenderedGlyph:
+        if format is None:
+            format = RenderedGlyphFormat.ALPHA
         if isinstance(character, str) and len(character) != 1:
             raise ValueError("only a single character may be rendered")
         if size.face is not self:
@@ -193,14 +195,18 @@ class FontFace:
         text: str,
         size: FontFaceSize,
         *,
-        break_text: BreakText = break_text_never,
+        break_text: BreakText | None = None,
         max_line_size: int | None = None,
-        is_character_rendered: Callable[[str], bool] = character_is_normally_rendered,
+        is_character_rendered: Callable[[str], bool] | None = None,
         line_height: int | None = None,
         primary_axis_alignment: PrimaryAxisTextAlign | None = None,
         secondary_axis_alignment: SecondaryAxisTextAlign | None = None,
         origin: FVector2 | None = None,
     ) -> TextLayout | None:
+        if break_text is None:
+            break_text = break_text_never
+        if is_character_rendered is None:
+            is_character_rendered = character_is_normally_rendered
         if size.face is not self:
             raise ValueError("size is not compatible with this face")
         if primary_axis_alignment is None:

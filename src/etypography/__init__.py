@@ -4,6 +4,7 @@ __all__ = [
     "break_text_never",
     "break_text_icu_line",
     "character_is_normally_rendered",
+    "Font",
     "FontFace",
     "FontFaceSize",
     "PrimaryAxisTextAlign",
@@ -16,6 +17,7 @@ from ._break_text import BreakText
 from ._break_text import BreakTextChunk
 from ._break_text import break_text_icu_line
 from ._break_text import break_text_never
+from ._font import Font
 from ._font_face import FontFace
 from ._font_face import FontFaceSize
 from ._font_face import PrimaryAxisTextAlign
