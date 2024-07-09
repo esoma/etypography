@@ -10,6 +10,9 @@ __all__ = [
     "PrimaryAxisTextAlign",
     "RenderedGlyphFormat",
     "SecondaryAxisTextAlign",
+    "TextLayout",
+    "TextLine",
+    "TextGlyph",
 ]
 
 # etypography
@@ -23,4 +26,7 @@ from ._font_face import FontFaceSize
 from ._font_face import PrimaryAxisTextAlign
 from ._font_face import RenderedGlyphFormat
 from ._font_face import SecondaryAxisTextAlign
+from ._font_face import TextGlyph
+from ._font_face import TextLayout
+from ._font_face import TextLine
 from ._unicode import character_is_normally_rendered
