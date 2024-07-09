@@ -265,9 +265,10 @@ class _PositionedGlyph:
 
 
 class _TextLineLayout:
-    def __init__(self, position: FVector2, line_height: int):
+    def __init__(self, position: FVector2, line_height: int, baseline_offset: FVector2):
         self.position = position
         self.size = FVector2(0, line_height)
+        self.baseline_offset = FVector2(*baseline_offset)
         self.glyphs: list[_PositionedGlyph] = []
 
     def add_glyphs(
@@ -284,7 +285,8 @@ class _TextLineLayout:
 
     @property
     def baseline(self) -> FVector2:
-        return self.position + self.size.oy
+        baseline = self.position + self.size.oy + self.baseline_offset
+        return FVector2(int(baseline.x), int(baseline.y))
 
     @property
     def extent(self) -> FVector2:
@@ -315,8 +317,11 @@ class _TextLayout:
         self.is_character_rendered = is_character_rendered
 
         self.line_height = round(size._line_size.y) if line_height is None else line_height
+        self.baseline_offset = size._baseline_offset
         self.max_line_size = max_line_size
-        self.lines: list[_TextLineLayout] = [_TextLineLayout(FVector2(0), self.line_height)]
+        self.lines: list[_TextLineLayout] = [
+            _TextLineLayout(FVector2(0), self.line_height, self.baseline_offset)
+        ]
 
         self._hb_font = size._face._hb_font
         self._hb_font.scale = size._scale
@@ -367,7 +372,9 @@ class _TextLayout:
 
         if not glyphs_added or chunk.force_break:
             line = _TextLineLayout(
-                FVector2(0, self.line_height * len(self.lines)), self.line_height
+                FVector2(0, self.line_height * len(self.lines)),
+                self.line_height,
+                self.baseline_offset,
             )
             self.lines.append(line)
 
@@ -477,6 +484,7 @@ class FontFaceSize(ABC):
             0.0,  # how
             self._face._ft_face.size.height / 64.0,
         )
+        self._baseline_offset = FVector2(0, self._face._ft_face.size.descender / 64.0)  # how
 
     def __repr__(self) -> str:
         return f"<FontFaceSize for {self._face.name!r} of {self.nominal_size}>"

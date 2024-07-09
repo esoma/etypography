@@ -38,8 +38,8 @@
                         "character": "a",
                         "glyph_index": 68,
                         "position": [
-                            242.65625,
-                            96.0
+                            243.0,
+                            88.0
                         ],
                         "size": [
                             11.0,
@@ -62,8 +62,8 @@
                         "character": "b",
                         "glyph_index": 69,
                         "position": [
-                            241.3125,
-                            128.0
+                            242.0,
+                            120.0
                         ],
                         "size": [
                             12.0,
@@ -86,8 +86,8 @@
                         "character": "c",
                         "glyph_index": 70,
                         "position": [
-                            244.5,
-                            160.0
+                            245.0,
+                            152.0
                         ],
                         "size": [
                             10.0,
@@ -110,8 +110,8 @@
                         "character": "d",
                         "glyph_index": 71,
                         "position": [
-                            241.3125,
-                            192.0
+                            242.0,
+                            184.0
                         ],
                         "size": [
                             12.0,
@@ -134,8 +134,8 @@
                         "character": "e",
                         "glyph_index": 72,
                         "position": [
-                            242.515625,
-                            224.0
+                            243.0,
+                            216.0
                         ],
                         "size": [
                             12.0,
@@ -158,8 +158,8 @@
                         "character": "f",
                         "glyph_index": 73,
                         "position": [
-                            228.6875,
-                            256.0
+                            229.0,
+                            248.0
                         ],
                         "size": [
                             10.0,
@@ -170,8 +170,8 @@
                         "character": "g",
                         "glyph_index": 74,
                         "position": [
-                            243.0,
-                            256.0
+                            243.3125,
+                            248.0
                         ],
                         "size": [
                             13.0,
