@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "etypography"
-version = "0.2.0"
+version = "0.3.0"
 description = "Layout text."
 authors = ["Erik Soma <stillusingirc@gmail.com>"]
 
