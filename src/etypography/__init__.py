@@ -25,6 +25,7 @@ from ._font import Font
 from ._font_face import FontFace
 from ._font_face import FontFaceSize
 from ._font_face import PrimaryAxisTextAlign
+from ._font_face import RenderedGlyph
 from ._font_face import RenderedGlyphFormat
 from ._font_face import SecondaryAxisTextAlign
 from ._font_face import TextGlyph
