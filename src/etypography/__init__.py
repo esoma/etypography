@@ -8,6 +8,7 @@ __all__ = [
     "FontFace",
     "FontFaceSize",
     "PrimaryAxisTextAlign",
+    "RenderedGlyph",
     "RenderedGlyphFormat",
     "SecondaryAxisTextAlign",
     "TextLayout",
