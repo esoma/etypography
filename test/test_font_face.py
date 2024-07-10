@@ -12,7 +12,7 @@ from etypography import break_text_never
 from etypography import character_is_normally_rendered
 
 # egeometry
-from egeometry import FRectangle2d
+from egeometry import FRectangle
 
 # emath
 from emath import FVector2
@@ -351,16 +351,16 @@ def test_text_layout(resource_dir, fixture_file_path):
         assert fixture["text_layout"] is None
     else:
         assert text_layout == (
-            FRectangle2d(
+            FRectangle(
                 FVector2(*fixture["text_layout"]["position"]),
                 FVector2(*fixture["text_layout"]["size"]),
             ),
             tuple(
                 (
-                    FRectangle2d(FVector2(*line["position"]), FVector2(*line["size"])),
+                    FRectangle(FVector2(*line["position"]), FVector2(*line["size"])),
                     tuple(
                         (
-                            FRectangle2d(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
+                            FRectangle(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
                             glyph["character"],
                             glyph["glyph_index"],
                         )
@@ -372,7 +372,7 @@ def test_text_layout(resource_dir, fixture_file_path):
         )
         assert tuple(text_layout.glyphs) == tuple(
             (
-                FRectangle2d(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
+                FRectangle(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
                 glyph["character"],
                 glyph["glyph_index"],
             )

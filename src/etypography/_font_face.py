@@ -20,7 +20,7 @@ from ._break_text import break_text_never
 from ._unicode import character_is_normally_rendered
 
 # egeometry
-from egeometry import FRectangle2d
+from egeometry import FRectangle
 
 # emath
 from emath import FVector2
@@ -420,13 +420,13 @@ class _TextLayout:
         if not self.size:
             return None
         return TextLayout(
-            FRectangle2d(origin + self.position, self.size),
+            FRectangle(origin + self.position, self.size),
             tuple(
                 TextLine(
-                    FRectangle2d(origin + line.position, line.rendered_size),
+                    FRectangle(origin + line.position, line.rendered_size),
                     tuple(
                         TextGlyph(
-                            FRectangle2d(origin + line.baseline + glyph.position, glyph.size),
+                            FRectangle(origin + line.baseline + glyph.position, glyph.size),
                             glyph.character,
                             glyph.glyph_index,
                         )
@@ -441,18 +441,18 @@ class _TextLayout:
 
 
 class TextGlyph(NamedTuple):
-    bounding_box: FRectangle2d
+    bounding_box: FRectangle
     character: str
     glyph_index: int
 
 
 class TextLine(NamedTuple):
-    bounding_box: FRectangle2d
+    bounding_box: FRectangle
     glyphs: tuple[TextGlyph, ...]
 
 
 class TextLayout(NamedTuple):
-    bounding_box: FRectangle2d
+    bounding_box: FRectangle
     lines: tuple[TextLine, ...]
 
     @property
