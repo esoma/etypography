@@ -376,11 +376,15 @@ class _TextLayout:
     def _add_chunk_glyphs(
         self, chunk: BreakTextChunk, chunk_glyphs: Sequence[_PositionedGlyph], advance: FVector2
     ) -> None:
+        line_height = (
+            self._font_face_size._line_size.y if self.line_height is None else self.line_height
+        )
+
         glyphs_added = self.lines[-1].add_glyphs(
             chunk_glyphs,
             advance,
             self._font_face_size._baseline_offset,
-            self._font_face_size._line_size.y,
+            line_height,
             self.max_line_size,
         )
 
@@ -393,7 +397,7 @@ class _TextLayout:
                     chunk_glyphs,
                     advance,
                     self._font_face_size._baseline_offset,
-                    self._font_face_size._line_size.y,
+                    line_height,
                     self.max_line_size,
                 )
 
