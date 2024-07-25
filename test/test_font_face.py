@@ -7,6 +7,7 @@ from etypography import FontFace
 from etypography import FontFaceSize
 from etypography import PrimaryAxisTextAlign
 from etypography import RenderedGlyphFormat
+from etypography import RichText
 from etypography import SecondaryAxisTextAlign
 from etypography import break_text_never
 from etypography import character_is_normally_rendered
@@ -300,8 +301,7 @@ def test_layout_text(
         result = face.layout_text(text, size, **kwargs)
 
     TextLayoutMock.assert_called_once_with(
-        text,
-        size,
+        (RichText(text, size),),
         expected_break_text,
         expected_max_line_size,
         expected_is_character_rendered,

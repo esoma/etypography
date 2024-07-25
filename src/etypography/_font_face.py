@@ -4,6 +4,7 @@ __all__ = [
     "FontFace",
     "FontFaceSize",
     "PrimaryAxisTextAlign",
+    "RichText",
     "RenderedGlyph",
     "RenderedGlyphFormat",
     "SecondaryAxisTextAlign",
@@ -59,6 +60,11 @@ class RenderedGlyphFormat(Enum):
     SDF = FT_RENDER_MODE_SDF
     LCD = FT_RENDER_MODE_LCD
     LCD_V = FT_RENDER_MODE_LCD_V
+
+
+class RichText(NamedTuple):
+    text: str
+    size: FontFaceSize
 
 
 class FontFace:
@@ -217,8 +223,7 @@ class FontFace:
             origin = FVector2(0)
 
         return _TextLayout(
-            text,
-            size,
+            (RichText(text, size),),
             break_text,
             max_line_size,
             is_character_rendered,
@@ -314,8 +319,7 @@ class _TextLineLayout:
 class _TextLayout:
     def __init__(
         self,
-        text: str,
-        size: FontFaceSize,
+        rich_text: Sequence[RichText],
         break_text: BreakText,
         max_line_size: int | None,
         is_character_rendered: Callable[[str], bool],
@@ -323,7 +327,8 @@ class _TextLayout:
         primary_axis_alignment: PrimaryAxisTextAlign,
         secondary_axis_alignment: SecondaryAxisTextAlign,
     ):
-        self._font_face_size = size
+        assert len(rich_text) == 1
+        self._font_face_size = size = rich_text[0].size
 
         self.is_character_rendered = is_character_rendered
 
@@ -333,7 +338,7 @@ class _TextLayout:
 
         self._hb_font = size._face._hb_font
         self._hb_font.scale = size._scale
-        for chunk in break_text(text):
+        for chunk in break_text(rich_text[0].text):
             self._add_chunk(chunk)
 
         self._h_align(primary_axis_alignment)
