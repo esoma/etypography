@@ -265,21 +265,25 @@ class _PositionedGlyph:
 
 
 class _TextLineLayout:
-    def __init__(self, position: FVector2, line_height: int, baseline_offset: FVector2):
+    def __init__(self, position: FVector2, baseline_offset: FVector2):
         self.position = position
-        self.size = FVector2(0, line_height)
+        self.size = FVector2(0)
         self.baseline_offset = FVector2(*baseline_offset)
         self.glyphs: list[_PositionedGlyph] = []
 
     def add_glyphs(
-        self, glyphs: Sequence[_PositionedGlyph], advance: FVector2, max_size: int | None
+        self,
+        glyphs: Sequence[_PositionedGlyph],
+        advance: FVector2,
+        size: float,
+        max_size: int | None,
     ) -> bool:
         if max_size is not None and self.extent.x + advance.x > max_size:
             if self.glyphs:
                 return False
         for glyph in glyphs:
             glyph.position += self.size.xo
-        self.size += advance
+        self.size = FVector2(self.size.x + advance.x, max(self.size.y, round(size)))
         self.glyphs.extend(glyphs)
         return True
 
@@ -319,9 +323,7 @@ class _TextLayout:
         self.line_height = round(size._line_size.y) if line_height is None else line_height
         self.baseline_offset = size._baseline_offset
         self.max_line_size = max_line_size
-        self.lines: list[_TextLineLayout] = [
-            _TextLineLayout(FVector2(0), self.line_height, self.baseline_offset)
-        ]
+        self.lines: list[_TextLineLayout] = [_TextLineLayout(FVector2(0), self.baseline_offset)]
 
         self._hb_font = size._face._hb_font
         self._hb_font.scale = size._scale
@@ -368,18 +370,21 @@ class _TextLayout:
     def _add_chunk_glyphs(
         self, chunk: BreakTextChunk, chunk_glyphs: Sequence[_PositionedGlyph], advance: FVector2
     ) -> None:
-        glyphs_added = self.lines[-1].add_glyphs(chunk_glyphs, advance, self.max_line_size)
+        glyphs_added = self.lines[-1].add_glyphs(
+            chunk_glyphs, advance, self._font_face_size._line_size.y, self.max_line_size
+        )
 
         if not glyphs_added or chunk.force_break:
             line = _TextLineLayout(
-                FVector2(0, self.line_height * len(self.lines)),
-                self.line_height,
+                FVector2(0, sum((l.size.y for l in self.lines))),
                 self.baseline_offset,
             )
             self.lines.append(line)
 
             if not glyphs_added:
-                line.add_glyphs(chunk_glyphs, advance, self.max_line_size)
+                line.add_glyphs(
+                    chunk_glyphs, advance, self._font_face_size._line_size.y, self.max_line_size
+                )
 
     def _h_align(self, align: PrimaryAxisTextAlign) -> None:
         getattr(self, f"_h_align_{align.value}")()

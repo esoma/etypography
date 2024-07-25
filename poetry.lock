@@ -91,13 +91,13 @@ toml = ["tomli"]
 
 [[package]]
 name = "egeometry"
-version = "0.3.0"
+version = "0.4.0"
 description = "Python geometry library."
 optional = false
 python-versions = "<4.0,>=3.12"
 files = [
-    {file = "egeometry-0.3.0-py3-none-any.whl", hash = "sha256:54c4013553ee1ddb319bb250037ea31d73ad87c759eebf3963db1236b4f60d23"},
-    {file = "egeometry-0.3.0.tar.gz", hash = "sha256:23b96cd3eea11c138e344673376fdd25d7ea7fba47f023a86a36f7033c9796be"},
+    {file = "egeometry-0.4.0-py3-none-any.whl", hash = "sha256:cd0c88086a1e37c1991c03531743958fd29a8daf2d246f948e8cabd3f7f479f0"},
+    {file = "egeometry-0.4.0.tar.gz", hash = "sha256:3668471dfb175befbe26f6ee03754be4eea1aa59db66b6d55430099c68b4634e"},
 ]
 
 [package.dependencies]
@@ -382,4 +382,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "486e48bbaebde3f956d90323e224358588b74697c22b813a84345362e96e30a8"
+content-hash = "f3668cdfbff8e5c7cf21b55208276b2af108967831762914b2af3424c34d1efb"

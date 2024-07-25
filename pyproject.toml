@@ -9,7 +9,7 @@ python = "^3.12"
 uharfbuzz = "^0.39.0"
 freetype-py = "^2.4.0"
 emath = "^0.1.13"
-egeometry = "^0.3.0"
+egeometry = "^0.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "7.4.3"
