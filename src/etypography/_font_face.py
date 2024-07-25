@@ -327,7 +327,7 @@ class _TextLayout:
 
         self.is_character_rendered = is_character_rendered
 
-        self.line_height = round(size._line_size.y) if line_height is None else line_height
+        self.line_height = line_height
         self.max_line_size = max_line_size
         self.lines: list[_TextLineLayout] = [_TextLineLayout(FVector2(0))]
 
@@ -418,17 +418,19 @@ class _TextLayout:
         pass
 
     def _v_align_center(self) -> None:
-        center = FVector2(0, self.line_height * len(self.lines) * 0.5)
+        center = FVector2(0, sum(l.size.y for l in self.lines) * 0.5)
         for line in self.lines:
             line.position -= center
 
     def _v_align_end(self) -> None:
-        end = FVector2(0, self.line_height * len(self.lines))
+        end = FVector2(0, sum(l.size.y for l in self.lines))
         for line in self.lines:
             line.position -= end
 
     def _v_align_baseline(self) -> None:
-        baseline = FVector2(0, self.line_height)
+        if not self.lines:
+            return
+        baseline = FVector2(0, self.lines[0].size.y)
         for line in self.lines:
             line.position -= baseline
 
