@@ -48,7 +48,8 @@
                         "size": [
                             11.0,
                             13.0
-                        ]
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
                     }
                 ]
             },
@@ -72,7 +73,8 @@
                         "size": [
                             12.0,
                             18.0
-                        ]
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
                     }
                 ]
             },
@@ -96,7 +98,8 @@
                         "size": [
                             10.0,
                             13.0
-                        ]
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
                     }
                 ]
             },
@@ -120,7 +123,8 @@
                         "size": [
                             12.0,
                             18.0
-                        ]
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
                     }
                 ]
             },
@@ -144,7 +148,8 @@
                         "size": [
                             12.0,
                             13.0
-                        ]
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
                     }
                 ]
             },
@@ -168,7 +173,8 @@
                         "size": [
                             10.0,
                             18.0
-                        ]
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
                     },
                     {
                         "character": "g",
@@ -180,7 +186,8 @@
                         "size": [
                             13.0,
                             19.0
-                        ]
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
                     }
                 ]
             }

@@ -261,6 +261,7 @@ class _PositionedGlyph:
     position: FVector2
     size: FVector2
     is_rendered: bool
+    font_face_size: FontFaceSize
 
     @property
     def extent(self) -> FVector2:
@@ -369,6 +370,7 @@ class _TextLayout:
                     pen_position + FVector2(pos.x_offset / 64.0, pos.y_offset / 64.0),
                     size._face._get_glyph_size(info.codepoint, size),
                     self.is_character_rendered(c),
+                    size,
                 )
             )
             pen_position += FVector2(pos.x_advance / 64.0, pos.y_advance / 64.0)
@@ -455,6 +457,7 @@ class _TextLayout:
                             FRectangle(origin + line.baseline + glyph.position, glyph.size),
                             glyph.character,
                             glyph.glyph_index,
+                            glyph.font_face_size,
                         )
                         for glyph in line.glyphs
                         if glyph.is_rendered and glyph.size
@@ -470,6 +473,7 @@ class TextGlyph(NamedTuple):
     bounding_box: FRectangle
     character: str
     glyph_index: int
+    font_face_size: FontFaceSize
 
 
 class TextLine(NamedTuple):
