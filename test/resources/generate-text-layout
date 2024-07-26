@@ -43,6 +43,14 @@ FONT_SIZE = [
 
 RICH_TEXT = [
     *(((t, f, m, k),) for t, f, (m, k) in product(TEXT, FONT_FILES, FONT_SIZE)),
+    (
+        ("hello ", "OpenSans-Regular.ttf", "request_pixel_size", {"height": 12}),
+        ("world", "OpenSans-Regular.ttf", "request_pixel_size", {"height": 24}),
+    ),
+    (
+        ("hello ", "OpenSans-Regular.ttf", "request_pixel_size", {"height": 24}),
+        ("world", "OpenSans-Regular.ttf", "request_pixel_size", {"height": 12}),
+    ),
 ]
 
 BREAK_TEXT = ["break_text_icu_line", "break_text_never"]
@@ -112,7 +120,9 @@ def main():
 
         if text_layout is not None:
             for text_glyph in text_layout.glyphs:
-                rendered_glyph = font_face.render_glyph(text_glyph.glyph_index, font_face_size)
+                font_face_size = text_glyph.font_face_size
+                face = font_face_size.face
+                rendered_glyph = face.render_glyph(text_glyph.glyph_index, font_face_size)
                 image_glyph = Image.frombytes("L", tuple(rendered_glyph.size), rendered_glyph.data)
                 image.paste(
                     image_glyph,

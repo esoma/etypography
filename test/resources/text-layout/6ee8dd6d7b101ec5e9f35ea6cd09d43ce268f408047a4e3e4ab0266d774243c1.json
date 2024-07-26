@@ -1,0 +1,197 @@
+{
+    "rich_text": [
+        {
+            "text": "hello ",
+            "size": {
+                "font": "OpenSans-Regular.ttf",
+                "method": "request_pixel_size",
+                "kwargs": {
+                    "height": 12
+                }
+            }
+        },
+        {
+            "text": "world",
+            "size": {
+                "font": "OpenSans-Regular.ttf",
+                "method": "request_pixel_size",
+                "kwargs": {
+                    "height": 24
+                }
+            }
+        }
+    ],
+    "layout_text_kwargs": {
+        "primary_axis_alignment": "begin",
+        "secondary_axis_alignment": "begin",
+        "break_text": "break_text_icu_line",
+        "max_line_size": 32,
+        "line_height": 32
+    },
+    "text_layout": {
+        "position": [
+            256.0,
+            256.0
+        ],
+        "size": [
+            60.90625,
+            64.0
+        ],
+        "lines": [
+            {
+                "position": [
+                    256.0,
+                    256.0
+                ],
+                "size": [
+                    27.375,
+                    32.0
+                ],
+                "glyphs": [
+                    {
+                        "character": "h",
+                        "glyph_index": 75,
+                        "position": [
+                            256.0,
+                            284.0
+                        ],
+                        "size": [
+                            6.0,
+                            9.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "e",
+                        "glyph_index": 72,
+                        "position": [
+                            263.359375,
+                            284.0
+                        ],
+                        "size": [
+                            7.0,
+                            6.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "l",
+                        "glyph_index": 79,
+                        "position": [
+                            270.09375,
+                            284.0
+                        ],
+                        "size": [
+                            1.0,
+                            9.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "l",
+                        "glyph_index": 79,
+                        "position": [
+                            273.125,
+                            284.0
+                        ],
+                        "size": [
+                            1.0,
+                            9.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "o",
+                        "glyph_index": 82,
+                        "position": [
+                            276.15625,
+                            284.0
+                        ],
+                        "size": [
+                            7.0,
+                            6.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    }
+                ]
+            },
+            {
+                "position": [
+                    256.0,
+                    288.0
+                ],
+                "size": [
+                    60.90625,
+                    32.0
+                ],
+                "glyphs": [
+                    {
+                        "character": "w",
+                        "glyph_index": 90,
+                        "position": [
+                            256.0,
+                            312.0
+                        ],
+                        "size": [
+                            19.0,
+                            13.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    },
+                    {
+                        "character": "o",
+                        "glyph_index": 82,
+                        "position": [
+                            274.59375,
+                            312.0
+                        ],
+                        "size": [
+                            13.0,
+                            13.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    },
+                    {
+                        "character": "r",
+                        "glyph_index": 85,
+                        "position": [
+                            289.03125,
+                            312.0
+                        ],
+                        "size": [
+                            8.0,
+                            13.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    },
+                    {
+                        "character": "l",
+                        "glyph_index": 79,
+                        "position": [
+                            298.84375,
+                            312.0
+                        ],
+                        "size": [
+                            3.0,
+                            18.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    },
+                    {
+                        "character": "d",
+                        "glyph_index": 71,
+                        "position": [
+                            304.90625,
+                            312.0
+                        ],
+                        "size": [
+                            12.0,
+                            18.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    }
+                ]
+            }
+        ]
+    }
+}

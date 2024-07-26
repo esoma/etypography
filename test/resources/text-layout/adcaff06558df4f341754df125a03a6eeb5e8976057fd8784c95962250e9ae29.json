@@ -1,0 +1,185 @@
+{
+    "rich_text": [
+        {
+            "text": "hello ",
+            "size": {
+                "font": "OpenSans-Regular.ttf",
+                "method": "request_pixel_size",
+                "kwargs": {
+                    "height": 12
+                }
+            }
+        },
+        {
+            "text": "world",
+            "size": {
+                "font": "OpenSans-Regular.ttf",
+                "method": "request_pixel_size",
+                "kwargs": {
+                    "height": 24
+                }
+            }
+        }
+    ],
+    "layout_text_kwargs": {
+        "primary_axis_alignment": "center",
+        "secondary_axis_alignment": "begin",
+        "break_text": "break_text_never",
+        "max_line_size": 99999,
+        "line_height": 32
+    },
+    "text_layout": {
+        "position": [
+            210.296875,
+            256.0
+        ],
+        "size": [
+            91.40625,
+            32.0
+        ],
+        "lines": [
+            {
+                "position": [
+                    210.296875,
+                    256.0
+                ],
+                "size": [
+                    91.40625,
+                    32.0
+                ],
+                "glyphs": [
+                    {
+                        "character": "h",
+                        "glyph_index": 75,
+                        "position": [
+                            211.0,
+                            284.0
+                        ],
+                        "size": [
+                            6.0,
+                            9.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "e",
+                        "glyph_index": 72,
+                        "position": [
+                            218.359375,
+                            284.0
+                        ],
+                        "size": [
+                            7.0,
+                            6.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "l",
+                        "glyph_index": 79,
+                        "position": [
+                            225.09375,
+                            284.0
+                        ],
+                        "size": [
+                            1.0,
+                            9.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "l",
+                        "glyph_index": 79,
+                        "position": [
+                            228.125,
+                            284.0
+                        ],
+                        "size": [
+                            1.0,
+                            9.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "o",
+                        "glyph_index": 82,
+                        "position": [
+                            231.15625,
+                            284.0
+                        ],
+                        "size": [
+                            7.0,
+                            6.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
+                    },
+                    {
+                        "character": "w",
+                        "glyph_index": 90,
+                        "position": [
+                            241.5,
+                            284.0
+                        ],
+                        "size": [
+                            19.0,
+                            13.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    },
+                    {
+                        "character": "o",
+                        "glyph_index": 82,
+                        "position": [
+                            260.09375,
+                            284.0
+                        ],
+                        "size": [
+                            13.0,
+                            13.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    },
+                    {
+                        "character": "r",
+                        "glyph_index": 85,
+                        "position": [
+                            274.53125,
+                            284.0
+                        ],
+                        "size": [
+                            8.0,
+                            13.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    },
+                    {
+                        "character": "l",
+                        "glyph_index": 79,
+                        "position": [
+                            284.34375,
+                            284.0
+                        ],
+                        "size": [
+                            3.0,
+                            18.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    },
+                    {
+                        "character": "d",
+                        "glyph_index": 71,
+                        "position": [
+                            290.40625,
+                            284.0
+                        ],
+                        "size": [
+                            12.0,
+                            18.0
+                        ],
+                        "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>"
+                    }
+                ]
+            }
+        ]
+    }
+}

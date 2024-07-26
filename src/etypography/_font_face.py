@@ -326,8 +326,6 @@ class _TextLayout:
         primary_axis_alignment: PrimaryAxisTextAlign,
         secondary_axis_alignment: SecondaryAxisTextAlign,
     ):
-        assert len(rich_text) == 1
-
         self.is_character_rendered = is_character_rendered
 
         self.line_height = line_height
