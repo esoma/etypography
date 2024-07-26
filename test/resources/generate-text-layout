@@ -36,11 +36,14 @@ TEXT = [
     " \n ",
 ]
 FONT_FILES = ["OpenSans-Regular.ttf"]
-BREAK_TEXT = ["break_text_icu_line", "break_text_never"]
 FONT_SIZE = [
     ("request_pixel_size", {"height": 12}),
     ("request_pixel_size", {"height": 24}),
 ]
+
+RICH_TEXT = [*(((t, f, m, k),) for t, f, (m, k) in product(TEXT, FONT_FILES, FONT_SIZE))]
+
+BREAK_TEXT = ["break_text_icu_line", "break_text_never"]
 MAX_LINE_SIZE = [None, 32, 99999]
 LINE_HEIGHT = [None, 32]
 IMAGE_SIZE = 512
@@ -53,45 +56,45 @@ def main():
     TEXT_LAYOUT_DIRECTORY.mkdir()
 
     for (
-        text,
-        font,
+        rich_text_params,
         break_text_name,
         max_line_size,
         p_align,
         s_align,
-        (font_size_method_name, font_size_kwargs),
         line_height,
     ) in product(
-        TEXT,
-        FONT_FILES,
+        RICH_TEXT,
         BREAK_TEXT,
         MAX_LINE_SIZE,
         PrimaryAxisTextAlign,
         SecondaryAxisTextAlign,
-        FONT_SIZE,
         LINE_HEIGHT,
     ):
         sha256 = hashlib.sha256()
-        sha256.update(text.encode("utf8"))
-        sha256.update(font.encode("utf8"))
+        for text, font, font_size_method_name, font_size_kwargs in rich_text_params:
+            sha256.update(text.encode("utf8"))
+            sha256.update(font.encode("utf8"))
+            sha256.update(font_size_method_name.encode("utf8"))
+            sha256.update(str(font_size_kwargs).encode("utf8"))
         sha256.update(break_text_name.encode("utf8"))
         sha256.update(str(max_line_size).encode("utf8"))
         sha256.update(p_align.encode("utf8"))
         sha256.update(s_align.encode("utf8"))
-        sha256.update(font_size_method_name.encode("utf8"))
-        sha256.update(str(font_size_kwargs).encode("utf8"))
         sha256.update(str(line_height).encode("utf8"))
         name = sha256.hexdigest()
 
-        with open(RESOURCE_DIRECTORY / font, "rb") as font_file:
-            font_face = FontFace(font_file)
+        rich_text = []
+        for text, font, font_size_method_name, font_size_kwargs in rich_text_params:
+            with open(RESOURCE_DIRECTORY / font, "rb") as font_file:
+                font_face = FontFace(font_file)
+            font_face_method = getattr(font_face, font_size_method_name)
+            font_face_size = font_face_method(**font_size_kwargs)
+            rich_text.append(RichText(text, font_face_size))
 
         break_text = getattr(etypography, break_text_name)
 
-        font_face_method = getattr(font_face, font_size_method_name)
-        font_face_size = font_face_method(**font_size_kwargs)
         text_layout = layout_text(
-            [RichText(text, font_face_size)],
+            rich_text,
             primary_axis_alignment=p_align,
             secondary_axis_alignment=s_align,
             max_line_size=max_line_size,
@@ -142,13 +145,14 @@ def main():
         data = {
             "rich_text": [
                 {
-                    "text": text,
+                    "text": t,
                     "size": {
-                        "font": font,
-                        "method": font_size_method_name,
-                        "kwargs": font_size_kwargs,
+                        "font": f,
+                        "method": m,
+                        "kwargs": k,
                     },
                 }
+                for t, f, m, k in rich_text_params
             ],
             "layout_text_kwargs": {
                 "primary_axis_alignment": p_align,
