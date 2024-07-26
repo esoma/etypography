@@ -7,6 +7,7 @@ __all__ = [
     "Font",
     "FontFace",
     "FontFaceSize",
+    "layout_text",
     "PrimaryAxisTextAlign",
     "RenderedGlyph",
     "RenderedGlyphFormat",
@@ -33,4 +34,5 @@ from ._font_face import SecondaryAxisTextAlign
 from ._font_face import TextGlyph
 from ._font_face import TextLayout
 from ._font_face import TextLine
+from ._font_face import layout_text
 from ._unicode import character_is_normally_rendered

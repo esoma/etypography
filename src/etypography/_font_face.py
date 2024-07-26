@@ -3,6 +3,7 @@ from __future__ import annotations
 __all__ = [
     "FontFace",
     "FontFaceSize",
+    "layout_text",
     "PrimaryAxisTextAlign",
     "RichText",
     "RenderedGlyph",
@@ -196,42 +197,6 @@ class FontFace:
             format,
         )
 
-    def layout_text(
-        self,
-        text: str,
-        size: FontFaceSize,
-        *,
-        break_text: BreakText | None = None,
-        max_line_size: int | None = None,
-        is_character_rendered: Callable[[str], bool] | None = None,
-        line_height: int | None = None,
-        primary_axis_alignment: PrimaryAxisTextAlign | None = None,
-        secondary_axis_alignment: SecondaryAxisTextAlign | None = None,
-        origin: FVector2 | None = None,
-    ) -> TextLayout | None:
-        if break_text is None:
-            break_text = break_text_never
-        if is_character_rendered is None:
-            is_character_rendered = character_is_normally_rendered
-        if size.face is not self:
-            raise ValueError("size is not compatible with this face")
-        if primary_axis_alignment is None:
-            primary_axis_alignment = PrimaryAxisTextAlign.BEGIN
-        if secondary_axis_alignment is None:
-            secondary_axis_alignment = SecondaryAxisTextAlign.BEGIN
-        if origin is None:
-            origin = FVector2(0)
-
-        return _TextLayout(
-            (RichText(text, size),),
-            break_text,
-            max_line_size,
-            is_character_rendered,
-            line_height,
-            primary_axis_alignment,
-            secondary_axis_alignment,
-        ).to_text_layout(origin)
-
     @property
     def fixed_sizes(self) -> Sequence[FontFaceSize]:
         return tuple(
@@ -241,6 +206,39 @@ class FontFace:
     @property
     def name(self) -> str:
         return self._name
+
+
+def layout_text(
+    rich_text: Sequence[RichText],
+    *,
+    break_text: BreakText | None = None,
+    max_line_size: int | None = None,
+    is_character_rendered: Callable[[str], bool] | None = None,
+    line_height: int | None = None,
+    primary_axis_alignment: PrimaryAxisTextAlign | None = None,
+    secondary_axis_alignment: SecondaryAxisTextAlign | None = None,
+    origin: FVector2 | None = None,
+) -> TextLayout | None:
+    if break_text is None:
+        break_text = break_text_never
+    if is_character_rendered is None:
+        is_character_rendered = character_is_normally_rendered
+    if primary_axis_alignment is None:
+        primary_axis_alignment = PrimaryAxisTextAlign.BEGIN
+    if secondary_axis_alignment is None:
+        secondary_axis_alignment = SecondaryAxisTextAlign.BEGIN
+    if origin is None:
+        origin = FVector2(0)
+
+    return _TextLayout(
+        rich_text,
+        break_text,
+        max_line_size,
+        is_character_rendered,
+        line_height,
+        primary_axis_alignment,
+        secondary_axis_alignment,
+    ).to_text_layout(origin)
 
 
 class PrimaryAxisTextAlign(StrEnum):
@@ -528,6 +526,29 @@ class FontFaceSize(ABC):
     @property
     def nominal_size(self) -> UVector2:
         return self._nominal_size
+
+    def layout_text(
+        self,
+        text: str,
+        *,
+        break_text: BreakText | None = None,
+        max_line_size: int | None = None,
+        is_character_rendered: Callable[[str], bool] | None = None,
+        line_height: int | None = None,
+        primary_axis_alignment: PrimaryAxisTextAlign | None = None,
+        secondary_axis_alignment: SecondaryAxisTextAlign | None = None,
+        origin: FVector2 | None = None,
+    ) -> TextLayout | None:
+        return layout_text(
+            (RichText(text, self),),
+            break_text=break_text,
+            max_line_size=max_line_size,
+            is_character_rendered=is_character_rendered,
+            line_height=line_height,
+            primary_axis_alignment=primary_axis_alignment,
+            secondary_axis_alignment=secondary_axis_alignment,
+            origin=origin,
+        )
 
 
 class _PointFontFaceSize(FontFaceSize):

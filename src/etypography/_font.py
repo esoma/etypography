@@ -46,9 +46,8 @@ class Font:
         secondary_axis_alignment: SecondaryAxisTextAlign | None = None,
         origin: FVector2 | None = None,
     ) -> TextLayout | None:
-        return self._size.face.layout_text(
+        return self._size.layout_text(
             text,
-            self._size,
             break_text=break_text,
             max_line_size=max_line_size,
             is_character_rendered=is_character_rendered,

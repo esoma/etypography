@@ -100,9 +100,8 @@ def test_layout_text(
         kwargs["origin"] = origin
 
     text_layout = font.layout_text(text, **kwargs)
-    size.face.layout_text.assert_called_once_with(
+    size.layout_text.assert_called_once_with(
         text,
-        size,
         break_text=break_text,
         max_line_size=max_line_size,
         is_character_rendered=is_character_rendered,
@@ -111,4 +110,4 @@ def test_layout_text(
         secondary_axis_alignment=secondary_axis_alignment,
         origin=origin,
     )
-    assert text_layout == size.face.layout_text(text, size, **kwargs)
+    assert text_layout == size.layout_text(text, size, **kwargs)

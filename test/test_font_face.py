@@ -11,6 +11,7 @@ from etypography import RichText
 from etypography import SecondaryAxisTextAlign
 from etypography import break_text_never
 from etypography import character_is_normally_rendered
+from etypography import layout_text
 
 # egeometry
 from egeometry import FRectangle
@@ -227,13 +228,56 @@ def test_render_glyph(face, character, use_glyph_index, format):
     assert rendered_glyph.format is format
 
 
-def test_layout_text_invalid_size(resource_dir, face):
-    with open(resource_dir / "OpenSans-Regular.ttf", "rb") as file:
-        other_face = FontFace(file)
-    size = other_face.request_pixel_size(height=10)
-    with pytest.raises(ValueError) as excinfo:
-        face.layout_text("a", size)
-    assert str(excinfo.value) == "size is not compatible with this face"
+@pytest.mark.parametrize("break_text", [None, MagicMock()])
+@pytest.mark.parametrize("max_line_size", [None, 100])
+@pytest.mark.parametrize("is_character_rendered", [None, MagicMock()])
+@pytest.mark.parametrize("line_height", [None, 101])
+@pytest.mark.parametrize("primary_axis_alignment", [None, *PrimaryAxisTextAlign])
+@pytest.mark.parametrize("secondary_axis_alignment", [None, *SecondaryAxisTextAlign])
+@pytest.mark.parametrize("origin", [None, FVector2(-1, 1)])
+def test_face_size_layout_text(
+    face,
+    break_text,
+    max_line_size,
+    is_character_rendered,
+    line_height,
+    primary_axis_alignment,
+    secondary_axis_alignment,
+    origin,
+):
+    kwargs = {}
+
+    if break_text is not None:
+        kwargs["break_text"] = break_text
+    if max_line_size is not None:
+        kwargs["max_line_size"] = max_line_size
+    if is_character_rendered is not None:
+        kwargs["is_character_rendered"] = is_character_rendered
+    if line_height is not None:
+        kwargs["line_height"] = line_height
+    if primary_axis_alignment is not None:
+        kwargs["primary_axis_alignment"] = primary_axis_alignment
+    if secondary_axis_alignment is not None:
+        kwargs["secondary_axis_alignment"] = secondary_axis_alignment
+    if origin is not None:
+        kwargs["origin"] = origin
+
+    text = MagicMock()
+    size = face.request_pixel_size(height=10)
+
+    with patch("etypography._font_face.layout_text") as layout_text:
+        result = size.layout_text(text, **kwargs)
+    assert layout_text.return_value is result
+    layout_text.assert_called_once_with(
+        (RichText(text, size),),
+        break_text=break_text,
+        max_line_size=max_line_size,
+        is_character_rendered=is_character_rendered,
+        line_height=line_height,
+        primary_axis_alignment=primary_axis_alignment,
+        secondary_axis_alignment=secondary_axis_alignment,
+        origin=origin,
+    )
 
 
 @pytest.mark.parametrize("text", ["a", "bcdef"])
@@ -298,7 +342,7 @@ def test_layout_text(
 
     text_layout = MagicMock()
     with patch("etypography._font_face._TextLayout", return_value=text_layout) as TextLayoutMock:
-        result = face.layout_text(text, size, **kwargs)
+        result = layout_text((RichText(text, size),), **kwargs)
 
     TextLayoutMock.assert_called_once_with(
         (RichText(text, size),),
@@ -332,9 +376,8 @@ def test_text_layout(resource_dir, fixture_file_path):
     get_face_size = getattr(face, fixture["size"]["method"])
     face_size = get_face_size(**fixture["size"]["kwargs"])
 
-    text_layout = face.layout_text(
-        fixture["layout_text_kwargs"]["text"],
-        face_size,
+    text_layout = layout_text(
+        [RichText(fixture["layout_text_kwargs"]["text"], face_size)],
         primary_axis_alignment=PrimaryAxisTextAlign(
             fixture["layout_text_kwargs"]["primary_axis_alignment"]
         ),
