@@ -370,14 +370,16 @@ def test_text_layout(resource_dir, fixture_file_path):
     with open(fixture_file_path, "r", encoding="utf8") as fixture_file:
         fixture = json.load(fixture_file)
 
-    with open(resource_dir / fixture["font"], "rb") as font_file:
-        face = FontFace(font_file)
-
-    get_face_size = getattr(face, fixture["size"]["method"])
-    face_size = get_face_size(**fixture["size"]["kwargs"])
+    rich_text = []
+    for rich_text_fixture in fixture["rich_text"]:
+        with open(resource_dir / rich_text_fixture["size"]["font"], "rb") as font_file:
+            face = FontFace(font_file)
+        get_face_size = getattr(face, rich_text_fixture["size"]["method"])
+        face_size = get_face_size(**rich_text_fixture["size"]["kwargs"])
+        rich_text.append(RichText(rich_text_fixture["text"], face_size))
 
     text_layout = layout_text(
-        [RichText(fixture["layout_text_kwargs"]["text"], face_size)],
+        rich_text,
         primary_axis_alignment=PrimaryAxisTextAlign(
             fixture["layout_text_kwargs"]["primary_axis_alignment"]
         ),

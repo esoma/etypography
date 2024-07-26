@@ -4,7 +4,9 @@
 import etypography
 from etypography import FontFace
 from etypography import PrimaryAxisTextAlign
+from etypography import RichText
 from etypography import SecondaryAxisTextAlign
+from etypography import layout_text
 
 # click
 import click
@@ -88,9 +90,8 @@ def main():
 
         font_face_method = getattr(font_face, font_size_method_name)
         font_face_size = font_face_method(**font_size_kwargs)
-        text_layout = font_face.layout_text(
-            text,
-            font_face_size,
+        text_layout = layout_text(
+            [RichText(text, font_face_size)],
             primary_axis_alignment=p_align,
             secondary_axis_alignment=s_align,
             max_line_size=max_line_size,
@@ -139,13 +140,17 @@ def main():
             )
 
         data = {
-            "font": font,
-            "size": {
-                "method": font_size_method_name,
-                "kwargs": font_size_kwargs,
-            },
+            "rich_text": [
+                {
+                    "text": text,
+                    "size": {
+                        "font": font,
+                        "method": font_size_method_name,
+                        "kwargs": font_size_kwargs,
+                    },
+                }
+            ],
             "layout_text_kwargs": {
-                "text": text,
                 "primary_axis_alignment": p_align,
                 "secondary_axis_alignment": s_align,
                 "break_text": break_text_name,

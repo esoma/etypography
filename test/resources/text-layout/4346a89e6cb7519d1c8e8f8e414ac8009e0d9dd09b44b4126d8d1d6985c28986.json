@@ -1,13 +1,17 @@
 {
-    "font": "OpenSans-Regular.ttf",
-    "size": {
-        "method": "request_pixel_size",
-        "kwargs": {
-            "height": 24
+    "rich_text": [
+        {
+            "text": "a b c d e f g",
+            "size": {
+                "font": "OpenSans-Regular.ttf",
+                "method": "request_pixel_size",
+                "kwargs": {
+                    "height": 24
+                }
+            }
         }
-    },
+    ],
     "layout_text_kwargs": {
-        "text": "a b c d e f g",
         "primary_axis_alignment": "begin",
         "secondary_axis_alignment": "center",
         "break_text": "break_text_icu_line",
