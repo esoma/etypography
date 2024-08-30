@@ -353,7 +353,6 @@ class _TextLayout:
                         ri = end
                     if start != end:
                         rich_text_ranges.append((i, start, end))
-                print(rich_text_ranges)
                 self._add_chunk(chunk, rich_text, rich_text_ranges)
 
         self._h_align(primary_axis_alignment)
@@ -388,7 +387,6 @@ class _TextLayout:
             hb_buffer.direction = "LTR"
             hb_buffer.add_str(text)
             hb_shape(hb_font, hb_buffer, {})
-            print(repr(text))
 
             for info, pos in zip(hb_buffer.glyph_infos, hb_buffer.glyph_positions):
                 c = text[info.cluster]
