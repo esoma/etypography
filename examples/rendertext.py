@@ -85,6 +85,8 @@ def main(
     primary_axis_alignment,
     secondary_axis_alignment,
 ):
+    text = text.replace(r"\n", "\n")
+
     with open(font, "rb") as font_file:
         font_face = FontFace(font_file)
 

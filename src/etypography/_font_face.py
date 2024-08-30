@@ -262,6 +262,7 @@ class _PositionedGlyph:
     size: FVector2
     is_rendered: bool
     font_face_size: FontFaceSize
+    line_size: float
 
     @property
     def extent(self) -> FVector2:
@@ -279,20 +280,19 @@ class _TextLineLayout:
         self,
         glyphs: Sequence[_PositionedGlyph],
         advance: FVector2,
-        baseline_offset: FVector2,
-        size: float,
         max_size: int | None,
     ) -> bool:
         if max_size is not None and self.extent.x + advance.x > max_size:
             if self.glyphs:
                 return False
-        for glyph in glyphs:
-            glyph.position += self.size.xo
 
         line_size = self.size.y
-        if round(size) > line_size:
-            line_size = round(size)
-            self.baseline_offset = baseline_offset
+        for glyph in glyphs:
+            glyph.position += self.size.xo
+            if round(glyph.line_size) > line_size:
+                line_size = round(glyph.line_size)
+                self.baseline_offset = glyph.font_face_size._baseline_offset
+
         self.size = FVector2(self.size.x + advance.x, line_size)
 
         self.glyphs.extend(glyphs)
@@ -332,9 +332,29 @@ class _TextLayout:
         self.max_line_size = max_line_size
         self.lines: list[_TextLineLayout] = [_TextLineLayout(FVector2(0))]
 
-        for text, size in rich_text:
-            for chunk in break_text(text):
-                self._add_chunk(chunk, size)
+        if rich_text:
+            full_text = "".join(r.text for r in rich_text)
+            rich_text_iter = iter(enumerate(rich_text))
+            ni, current_rich_text = next(rich_text_iter)
+            ri = 0
+            for chunk in break_text(full_text):
+                chunk_length = len(chunk.text)
+                rich_text_ranges: list[tuple[int, int, int]] = []
+                while chunk_length > 0:
+                    i = ni
+                    start = ri
+                    end = start + chunk_length
+                    chunk_length -= len(current_rich_text.text) - start
+                    if chunk_length > 0:
+                        end = len(current_rich_text.text)
+                        ni, current_rich_text = next(rich_text_iter)
+                        ri = 0
+                    else:
+                        ri = end
+                    if start != end:
+                        rich_text_ranges.append((i, start, end))
+                print(rich_text_ranges)
+                self._add_chunk(chunk, rich_text, rich_text_ranges)
 
         self._h_align(primary_axis_alignment)
         self._v_align(secondary_axis_alignment)
@@ -347,48 +367,55 @@ class _TextLayout:
             self.lines[-1].extent.y - self.position.y,
         )
 
-    def _add_chunk(self, chunk: BreakTextChunk, size: FontFaceSize) -> None:
+    def _add_chunk(
+        self,
+        chunk: BreakTextChunk,
+        rich_texts: Sequence[RichText],
+        rich_text_ranges: Sequence[tuple[int, int, int]],
+    ) -> None:
         chunk_glyphs: list[_PositionedGlyph] = []
         pen_position = FVector2(0)
 
-        hb_font = size._face._hb_font
-        hb_font.scale = size._scale
+        for rich_text_i, rich_text_start, rich_text_end in rich_text_ranges:
+            rich_text = rich_texts[rich_text_i]
+            size = rich_text.size
+            text = rich_text.text[rich_text_start:rich_text_end]
 
-        hb_buffer = HbBuffer()
-        hb_buffer.direction = "LTR"
-        hb_buffer.add_str(chunk.text)
-        hb_shape(hb_font, hb_buffer, {})
+            hb_font = size._face._hb_font
+            hb_font.scale = size._scale
 
-        for info, pos in zip(hb_buffer.glyph_infos, hb_buffer.glyph_positions):
-            c = chunk.text[info.cluster]
-            chunk_glyphs.append(
-                _PositionedGlyph(
-                    c,
-                    info.codepoint,
-                    pen_position + FVector2(pos.x_offset / 64.0, pos.y_offset / 64.0),
-                    size._face._get_glyph_size(info.codepoint, size),
-                    self.is_character_rendered(c),
-                    size,
+            hb_buffer = HbBuffer()
+            hb_buffer.direction = "LTR"
+            hb_buffer.add_str(text)
+            hb_shape(hb_font, hb_buffer, {})
+            print(repr(text))
+
+            for info, pos in zip(hb_buffer.glyph_infos, hb_buffer.glyph_positions):
+                c = text[info.cluster]
+                chunk_glyphs.append(
+                    _PositionedGlyph(
+                        c,
+                        info.codepoint,
+                        pen_position + FVector2(pos.x_offset / 64.0, pos.y_offset / 64.0),
+                        size._face._get_glyph_size(info.codepoint, size),
+                        self.is_character_rendered(c),
+                        size,
+                        size._line_size.y if self.line_height is None else self.line_height,
+                    )
                 )
-            )
-            pen_position += FVector2(pos.x_advance / 64.0, pos.y_advance / 64.0)
+                pen_position += FVector2(pos.x_advance / 64.0, pos.y_advance / 64.0)
 
-        self._add_chunk_glyphs(chunk, size, chunk_glyphs, pen_position)
+        self._add_chunk_glyphs(chunk, chunk_glyphs, pen_position)
 
     def _add_chunk_glyphs(
         self,
         chunk: BreakTextChunk,
-        size: FontFaceSize,
         chunk_glyphs: Sequence[_PositionedGlyph],
         advance: FVector2,
     ) -> None:
-        line_height = size._line_size.y if self.line_height is None else self.line_height
-
         glyphs_added = self.lines[-1].add_glyphs(
             chunk_glyphs,
             advance,
-            size._baseline_offset,
-            line_height,
             self.max_line_size,
         )
 
@@ -397,13 +424,12 @@ class _TextLayout:
             self.lines.append(line)
 
             if not glyphs_added:
-                line.add_glyphs(
+                glyphs_added = line.add_glyphs(
                     chunk_glyphs,
                     advance,
-                    size._baseline_offset,
-                    line_height,
                     self.max_line_size,
                 )
+                assert glyphs_added
 
     def _h_align(self, align: PrimaryAxisTextAlign) -> None:
         getattr(self, f"_h_align_{align.value}")()

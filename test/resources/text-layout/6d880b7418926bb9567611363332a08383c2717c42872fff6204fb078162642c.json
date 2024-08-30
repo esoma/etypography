@@ -30,30 +30,30 @@
     },
     "text_layout": {
         "position": [
-            225.546875,
-            207.0
+            210.296875,
+            223.0
         ],
         "size": [
-            60.90625,
-            49.0
+            91.40625,
+            33.0
         ],
         "lines": [
             {
                 "position": [
-                    242.3125,
-                    207.0
+                    210.296875,
+                    223.0
                 ],
                 "size": [
-                    27.375,
-                    16.0
+                    91.40625,
+                    33.0
                 ],
                 "glyphs": [
                     {
                         "character": "h",
                         "glyph_index": 75,
                         "position": [
-                            243.0,
-                            219.0
+                            211.0,
+                            248.0
                         ],
                         "size": [
                             6.0,
@@ -65,8 +65,8 @@
                         "character": "e",
                         "glyph_index": 72,
                         "position": [
-                            250.359375,
-                            219.0
+                            218.359375,
+                            248.0
                         ],
                         "size": [
                             7.0,
@@ -78,8 +78,8 @@
                         "character": "l",
                         "glyph_index": 79,
                         "position": [
-                            257.09375,
-                            219.0
+                            225.09375,
+                            248.0
                         ],
                         "size": [
                             1.0,
@@ -91,8 +91,8 @@
                         "character": "l",
                         "glyph_index": 79,
                         "position": [
-                            260.125,
-                            219.0
+                            228.125,
+                            248.0
                         ],
                         "size": [
                             1.0,
@@ -104,32 +104,20 @@
                         "character": "o",
                         "glyph_index": 82,
                         "position": [
-                            263.15625,
-                            219.0
+                            231.15625,
+                            248.0
                         ],
                         "size": [
                             7.0,
                             6.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
-                    }
-                ]
-            },
-            {
-                "position": [
-                    225.546875,
-                    223.0
-                ],
-                "size": [
-                    60.90625,
-                    33.0
-                ],
-                "glyphs": [
+                    },
                     {
                         "character": "w",
                         "glyph_index": 90,
                         "position": [
-                            226.0,
+                            241.5,
                             248.0
                         ],
                         "size": [
@@ -142,7 +130,7 @@
                         "character": "o",
                         "glyph_index": 82,
                         "position": [
-                            244.59375,
+                            260.09375,
                             248.0
                         ],
                         "size": [
@@ -155,7 +143,7 @@
                         "character": "r",
                         "glyph_index": 85,
                         "position": [
-                            259.03125,
+                            274.53125,
                             248.0
                         ],
                         "size": [
@@ -168,7 +156,7 @@
                         "character": "l",
                         "glyph_index": 79,
                         "position": [
-                            268.84375,
+                            284.34375,
                             248.0
                         ],
                         "size": [
@@ -181,7 +169,7 @@
                         "character": "d",
                         "glyph_index": 71,
                         "position": [
-                            274.90625,
+                            290.40625,
                             248.0
                         ],
                         "size": [

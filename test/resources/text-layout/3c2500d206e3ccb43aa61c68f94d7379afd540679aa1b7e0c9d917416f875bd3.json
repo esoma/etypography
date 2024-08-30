@@ -31,21 +31,21 @@
     "text_layout": {
         "position": [
             256.0,
-            207.0
+            223.0
         ],
         "size": [
-            60.90625,
-            49.0
+            91.40625,
+            33.0
         ],
         "lines": [
             {
                 "position": [
                     256.0,
-                    207.0
+                    223.0
                 ],
                 "size": [
-                    27.375,
-                    16.0
+                    91.40625,
+                    33.0
                 ],
                 "glyphs": [
                     {
@@ -53,7 +53,7 @@
                         "glyph_index": 75,
                         "position": [
                             256.0,
-                            219.0
+                            248.0
                         ],
                         "size": [
                             6.0,
@@ -66,7 +66,7 @@
                         "glyph_index": 72,
                         "position": [
                             263.359375,
-                            219.0
+                            248.0
                         ],
                         "size": [
                             7.0,
@@ -79,7 +79,7 @@
                         "glyph_index": 79,
                         "position": [
                             270.09375,
-                            219.0
+                            248.0
                         ],
                         "size": [
                             1.0,
@@ -92,7 +92,7 @@
                         "glyph_index": 79,
                         "position": [
                             273.125,
-                            219.0
+                            248.0
                         ],
                         "size": [
                             1.0,
@@ -105,31 +105,19 @@
                         "glyph_index": 82,
                         "position": [
                             276.15625,
-                            219.0
+                            248.0
                         ],
                         "size": [
                             7.0,
                             6.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(12, 12)>"
-                    }
-                ]
-            },
-            {
-                "position": [
-                    256.0,
-                    223.0
-                ],
-                "size": [
-                    60.90625,
-                    33.0
-                ],
-                "glyphs": [
+                    },
                     {
                         "character": "w",
                         "glyph_index": 90,
                         "position": [
-                            256.0,
+                            286.5,
                             248.0
                         ],
                         "size": [
@@ -142,7 +130,7 @@
                         "character": "o",
                         "glyph_index": 82,
                         "position": [
-                            274.59375,
+                            305.09375,
                             248.0
                         ],
                         "size": [
@@ -155,7 +143,7 @@
                         "character": "r",
                         "glyph_index": 85,
                         "position": [
-                            289.03125,
+                            319.53125,
                             248.0
                         ],
                         "size": [
@@ -168,7 +156,7 @@
                         "character": "l",
                         "glyph_index": 79,
                         "position": [
-                            298.84375,
+                            329.34375,
                             248.0
                         ],
                         "size": [
@@ -181,7 +169,7 @@
                         "character": "d",
                         "glyph_index": 71,
                         "position": [
-                            304.90625,
+                            335.40625,
                             248.0
                         ],
                         "size": [
