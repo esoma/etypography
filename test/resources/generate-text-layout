@@ -188,6 +188,7 @@ def main():
                                 "rendered_position": tuple(glyph.rendered_bounding_box.position),
                                 "rendered_size": tuple(glyph.rendered_bounding_box.size),
                                 "font_face_size": repr(glyph.font_face_size),
+                                "is_rendered": glyph.is_rendered,
                             }
                             for glyph in line.glyphs
                         ],

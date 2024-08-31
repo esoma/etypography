@@ -488,9 +488,10 @@ class _TextLayout:
                             glyph.character,
                             glyph.glyph_index,
                             glyph.font_face_size,
+                            glyph.is_rendered,
                         )
                         for glyph in line.glyphs
-                        if glyph.is_rendered and glyph.size
+                        if glyph.size
                     ),
                 )
                 for line in self.lines
@@ -504,6 +505,7 @@ class TextGlyph(NamedTuple):
     character: str
     glyph_index: int
     font_face_size: FontFaceSize
+    is_rendered: bool
 
 
 class TextLine(NamedTuple):

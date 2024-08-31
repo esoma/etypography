@@ -108,17 +108,21 @@ def main(
     )
 
     image_size = (
-        int(text_layout.bounding_box.size.x) if width is None else width,
-        int(text_layout.bounding_box.size.y) if height is None else height,
+        int(text_layout.rendered_bounding_box.size.x) if width is None else width,
+        int(text_layout.rendered_bounding_box.size.y) if height is None else height,
     )
     image = Image.new(mode="RGB", size=image_size)
 
     for text_glyph in text_layout.glyphs:
+        if not text_glyph.is_rendered:
+            continue
         rendered_glyph = font_face.render_glyph(text_glyph.glyph_index, font_face_size)
         image_glyph = Image.frombytes("L", tuple(rendered_glyph.size), rendered_glyph.data)
         image.paste(
             image_glyph,
-            tuple(int(d) for d in text_glyph.bounding_box.position + rendered_glyph.bearing),
+            tuple(
+                int(d) for d in text_glyph.rendered_bounding_box.position + rendered_glyph.bearing
+            ),
         )
     image.show()
 

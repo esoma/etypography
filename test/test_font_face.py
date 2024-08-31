@@ -417,6 +417,7 @@ def test_text_layout(resource_dir, fixture_file_path):
                             glyph["character"],
                             glyph["glyph_index"],
                             font_face_sizes[glyph["font_face_size"]],
+                            glyph["is_rendered"],
                         )
                         for glyph in line["glyphs"]
                     ),
@@ -432,6 +433,7 @@ def test_text_layout(resource_dir, fixture_file_path):
                 glyph["character"],
                 glyph["glyph_index"],
                 font_face_sizes[glyph["font_face_size"]],
+                glyph["is_rendered"],
             )
             for line in fixture["text_layout"]["lines"]
             for glyph in line["glyphs"]
