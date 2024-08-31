@@ -22,7 +22,7 @@ from ._break_text import break_text_never
 from ._unicode import character_is_normally_rendered
 
 # egeometry
-from egeometry import FRectangle
+from egeometry import FBoundingBox2d
 
 # emath
 from emath import FVector2
@@ -66,6 +66,12 @@ class RenderedGlyphFormat(Enum):
 class RichText(NamedTuple):
     text: str
     size: FontFaceSize
+
+
+class RichTextRange(NamedTuple):
+    i: int
+    start: int
+    end: int
 
 
 class FontFace:
@@ -340,7 +346,7 @@ class _TextLayout:
             ri = 0
             for chunk in break_text(full_text):
                 chunk_length = len(chunk.text)
-                rich_text_ranges: list[tuple[int, int, int]] = []
+                rich_text_ranges: list[RichTextRange] = []
                 while chunk_length > 0:
                     i = ni
                     start = ri
@@ -353,7 +359,7 @@ class _TextLayout:
                     else:
                         ri = end
                     if start != end:
-                        rich_text_ranges.append((i, start, end))
+                        rich_text_ranges.append(RichTextRange(i, start, end))
                 self._add_chunk(chunk, rich_text, rich_text_ranges)
 
         self._h_align(primary_axis_alignment)
@@ -371,7 +377,7 @@ class _TextLayout:
         self,
         chunk: BreakTextChunk,
         rich_texts: Sequence[RichText],
-        rich_text_ranges: Sequence[tuple[int, int, int]],
+        rich_text_ranges: Sequence[RichTextRange],
     ) -> None:
         chunk_glyphs: list[_PositionedGlyph] = []
         pen_position = FVector2(0)
@@ -472,13 +478,13 @@ class _TextLayout:
             return None
         return TextLayout(
             self.rich_text,
-            FRectangle(origin + self.position, self.size),
+            FBoundingBox2d(origin + self.position, self.size),
             tuple(
                 TextLine(
-                    FRectangle(origin + line.position, line.rendered_size),
+                    FBoundingBox2d(origin + line.position, line.rendered_size),
                     tuple(
                         TextGlyph(
-                            FRectangle(origin + line.baseline + glyph.position, glyph.size),
+                            FBoundingBox2d(origin + line.baseline + glyph.position, glyph.size),
                             glyph.character,
                             glyph.glyph_index,
                             glyph.font_face_size,
@@ -494,20 +500,20 @@ class _TextLayout:
 
 
 class TextGlyph(NamedTuple):
-    bounding_box: FRectangle
+    bounding_box: FBoundingBox2d
     character: str
     glyph_index: int
     font_face_size: FontFaceSize
 
 
 class TextLine(NamedTuple):
-    bounding_box: FRectangle
+    bounding_box: FBoundingBox2d
     glyphs: tuple[TextGlyph, ...]
 
 
 class TextLayout(NamedTuple):
     rich_text: tuple[RichText, ...]
-    bounding_box: FRectangle
+    bounding_box: FBoundingBox2d
     lines: tuple[TextLine, ...]
 
     @property

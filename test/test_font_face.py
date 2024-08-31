@@ -14,7 +14,7 @@ from etypography import character_is_normally_rendered
 from etypography import layout_text
 
 # egeometry
-from egeometry import FRectangle
+from egeometry import FBoundingBox2d
 
 # emath
 from emath import FVector2
@@ -399,16 +399,16 @@ def test_text_layout(resource_dir, fixture_file_path):
     else:
         assert text_layout == (
             tuple(rich_text),
-            FRectangle(
+            FBoundingBox2d(
                 FVector2(*fixture["text_layout"]["position"]),
                 FVector2(*fixture["text_layout"]["size"]),
             ),
             tuple(
                 (
-                    FRectangle(FVector2(*line["position"]), FVector2(*line["size"])),
+                    FBoundingBox2d(FVector2(*line["position"]), FVector2(*line["size"])),
                     tuple(
                         (
-                            FRectangle(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
+                            FBoundingBox2d(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
                             glyph["character"],
                             glyph["glyph_index"],
                             font_face_sizes[glyph["font_face_size"]],
@@ -421,7 +421,7 @@ def test_text_layout(resource_dir, fixture_file_path):
         )
         assert tuple(text_layout.glyphs) == tuple(
             (
-                FRectangle(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
+                FBoundingBox2d(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
                 glyph["character"],
                 glyph["glyph_index"],
                 font_face_sizes[glyph["font_face_size"]],
