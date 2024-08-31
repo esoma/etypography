@@ -264,15 +264,15 @@ class SecondaryAxisTextAlign(StrEnum):
 class _PositionedGlyph:
     character: str
     glyph_index: int
-    position: FVector2
-    size: FVector2
+    rendered_position: FVector2
+    rendered_size: FVector2
     is_rendered: bool
     font_face_size: FontFaceSize
     line_size: float
 
     @property
-    def extent(self) -> FVector2:
-        return self.position + self.size
+    def rendered_extent(self) -> FVector2:
+        return self.rendered_position + self.rendered_size
 
 
 class _TextLineLayout:
@@ -294,7 +294,7 @@ class _TextLineLayout:
 
         line_size = self.size.y
         for glyph in glyphs:
-            glyph.position += self.size.xo
+            glyph.rendered_position += self.size.xo
             if round(glyph.line_size) > line_size:
                 line_size = round(glyph.line_size)
                 self.baseline_offset = glyph.font_face_size._baseline_offset
@@ -317,7 +317,7 @@ class _TextLineLayout:
     def rendered_size(self) -> FVector2:
         for glyph in reversed(self.glyphs):
             if glyph.is_rendered:
-                return FVector2(glyph.extent.x, self.size.y)
+                return FVector2(glyph.rendered_extent.x, self.size.y)
         return FVector2(0)
 
 
@@ -484,14 +484,17 @@ class _TextLayout:
                     FBoundingBox2d(origin + line.position, line.rendered_size),
                     tuple(
                         TextGlyph(
-                            FBoundingBox2d(origin + line.baseline + glyph.position, glyph.size),
+                            FBoundingBox2d(
+                                origin + line.baseline + glyph.rendered_position,
+                                glyph.rendered_size,
+                            ),
                             glyph.character,
                             glyph.glyph_index,
                             glyph.font_face_size,
                             glyph.is_rendered,
                         )
                         for glyph in line.glyphs
-                        if glyph.size
+                        if glyph.rendered_size
                     ),
                 )
                 for line in self.lines
