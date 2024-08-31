@@ -398,6 +398,7 @@ def test_text_layout(resource_dir, fixture_file_path):
         assert fixture["text_layout"] is None
     else:
         assert text_layout == (
+            tuple(rich_text),
             FRectangle(
                 FVector2(*fixture["text_layout"]["position"]),
                 FVector2(*fixture["text_layout"]["size"]),

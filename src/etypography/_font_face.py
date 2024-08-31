@@ -332,6 +332,7 @@ class _TextLayout:
         self.max_line_size = max_line_size
         self.lines: list[_TextLineLayout] = [_TextLineLayout(FVector2(0))]
 
+        self.rich_text = rich_text if isinstance(rich_text, tuple) else tuple(rich_text)
         if rich_text:
             full_text = "".join(r.text for r in rich_text)
             rich_text_iter = iter(enumerate(rich_text))
@@ -470,6 +471,7 @@ class _TextLayout:
         if not self.size:
             return None
         return TextLayout(
+            self.rich_text,
             FRectangle(origin + self.position, self.size),
             tuple(
                 TextLine(
@@ -504,6 +506,7 @@ class TextLine(NamedTuple):
 
 
 class TextLayout(NamedTuple):
+    rich_text: tuple[RichText, ...]
     bounding_box: FRectangle
     lines: tuple[TextLine, ...]
 
