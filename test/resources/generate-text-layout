@@ -127,17 +127,19 @@ def main():
                     image_glyph,
                     tuple(
                         round(d)
-                        for d in (text_glyph.bounding_box.position + rendered_glyph.bearing)
+                        for d in (
+                            text_glyph.rendered_bounding_box.position + rendered_glyph.bearing
+                        )
                     ),
                 )
 
             for line in text_layout.lines:
                 draw.rectangle(
                     (
-                        round(line.bounding_box.position.x),
-                        round(line.bounding_box.position.y),
-                        round(line.bounding_box.extent.x),
-                        round(line.bounding_box.extent.y),
+                        round(line.rendered_bounding_box.position.x),
+                        round(line.rendered_bounding_box.position.y),
+                        round(line.rendered_bounding_box.extent.x),
+                        round(line.rendered_bounding_box.extent.y),
                     ),
                     outline="red",
                     width=2,
@@ -145,10 +147,10 @@ def main():
 
             draw.rectangle(
                 (
-                    round(text_layout.bounding_box.position.x),
-                    round(text_layout.bounding_box.position.y),
-                    round(text_layout.bounding_box.extent.x),
-                    round(text_layout.bounding_box.extent.y),
+                    round(text_layout.rendered_bounding_box.position.x),
+                    round(text_layout.rendered_bounding_box.position.y),
+                    round(text_layout.rendered_bounding_box.extent.x),
+                    round(text_layout.rendered_bounding_box.extent.y),
                 ),
                 outline="green",
             )
@@ -173,18 +175,18 @@ def main():
                 "line_height": line_height,
             },
             "text_layout": {
-                "position": tuple(text_layout.bounding_box.position),
-                "size": tuple(text_layout.bounding_box.size),
+                "rendered_position": tuple(text_layout.rendered_bounding_box.position),
+                "rendered_size": tuple(text_layout.rendered_bounding_box.size),
                 "lines": [
                     {
-                        "position": tuple(line.bounding_box.position),
-                        "size": tuple(line.bounding_box.size),
+                        "rendered_position": tuple(line.rendered_bounding_box.position),
+                        "rendered_size": tuple(line.rendered_bounding_box.size),
                         "glyphs": [
                             {
                                 "character": glyph.character,
                                 "glyph_index": glyph.glyph_index,
-                                "position": tuple(glyph.bounding_box.position),
-                                "size": tuple(glyph.bounding_box.size),
+                                "rendered_position": tuple(glyph.rendered_bounding_box.position),
+                                "rendered_size": tuple(glyph.rendered_bounding_box.size),
                                 "font_face_size": repr(glyph.font_face_size),
                             }
                             for glyph in line.glyphs

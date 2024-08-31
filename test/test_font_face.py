@@ -400,15 +400,20 @@ def test_text_layout(resource_dir, fixture_file_path):
         assert text_layout == (
             tuple(rich_text),
             FBoundingBox2d(
-                FVector2(*fixture["text_layout"]["position"]),
-                FVector2(*fixture["text_layout"]["size"]),
+                FVector2(*fixture["text_layout"]["rendered_position"]),
+                FVector2(*fixture["text_layout"]["rendered_size"]),
             ),
             tuple(
                 (
-                    FBoundingBox2d(FVector2(*line["position"]), FVector2(*line["size"])),
+                    FBoundingBox2d(
+                        FVector2(*line["rendered_position"]), FVector2(*line["rendered_size"])
+                    ),
                     tuple(
                         (
-                            FBoundingBox2d(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
+                            FBoundingBox2d(
+                                FVector2(*glyph["rendered_position"]),
+                                FVector2(*glyph["rendered_size"]),
+                            ),
                             glyph["character"],
                             glyph["glyph_index"],
                             font_face_sizes[glyph["font_face_size"]],
@@ -421,7 +426,9 @@ def test_text_layout(resource_dir, fixture_file_path):
         )
         assert tuple(text_layout.glyphs) == tuple(
             (
-                FBoundingBox2d(FVector2(*glyph["position"]), FVector2(*glyph["size"])),
+                FBoundingBox2d(
+                    FVector2(*glyph["rendered_position"]), FVector2(*glyph["rendered_size"])
+                ),
                 glyph["character"],
                 glyph["glyph_index"],
                 font_face_sizes[glyph["font_face_size"]],

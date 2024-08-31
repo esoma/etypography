@@ -19,21 +19,21 @@
         "line_height": 32
     },
     "text_layout": {
-        "position": [
+        "rendered_position": [
             256.0,
             240.0
         ],
-        "size": [
+        "rendered_size": [
             20.640625,
             32.0
         ],
         "lines": [
             {
-                "position": [
+                "rendered_position": [
                     256.0,
                     240.0
                 ],
-                "size": [
+                "rendered_size": [
                     20.640625,
                     32.0
                 ],

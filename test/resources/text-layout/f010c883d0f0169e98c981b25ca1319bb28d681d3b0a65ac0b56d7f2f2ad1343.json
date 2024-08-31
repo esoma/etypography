@@ -19,21 +19,21 @@
         "line_height": null
     },
     "text_layout": {
-        "position": [
+        "rendered_position": [
             250.8359375,
             248.0
         ],
-        "size": [
+        "rendered_size": [
             10.328125,
             16.0
         ],
         "lines": [
             {
-                "position": [
+                "rendered_position": [
                     250.8359375,
                     248.0
                 ],
-                "size": [
+                "rendered_size": [
                     10.328125,
                     16.0
                 ],

@@ -29,21 +29,21 @@
         "line_height": 32
     },
     "text_layout": {
-        "position": [
+        "rendered_position": [
             163.546875,
             256.0
         ],
-        "size": [
+        "rendered_size": [
             92.453125,
             32.0
         ],
         "lines": [
             {
-                "position": [
+                "rendered_position": [
                     163.546875,
                     256.0
                 ],
-                "size": [
+                "rendered_size": [
                     92.453125,
                     32.0
                 ],
@@ -51,11 +51,11 @@
                     {
                         "character": "h",
                         "glyph_index": 75,
-                        "position": [
+                        "rendered_position": [
                             164.0,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             11.0,
                             18.0
                         ],
@@ -64,11 +64,11 @@
                     {
                         "character": "e",
                         "glyph_index": 72,
-                        "position": [
+                        "rendered_position": [
                             178.71875,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             12.0,
                             13.0
                         ],
@@ -77,11 +77,11 @@
                     {
                         "character": "l",
                         "glyph_index": 79,
-                        "position": [
+                        "rendered_position": [
                             192.203125,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             3.0,
                             18.0
                         ],
@@ -90,11 +90,11 @@
                     {
                         "character": "l",
                         "glyph_index": 79,
-                        "position": [
+                        "rendered_position": [
                             198.265625,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             3.0,
                             18.0
                         ],
@@ -103,11 +103,11 @@
                     {
                         "character": "o",
                         "glyph_index": 82,
-                        "position": [
+                        "rendered_position": [
                             204.328125,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             13.0,
                             13.0
                         ],
@@ -116,11 +116,11 @@
                     {
                         "character": "w",
                         "glyph_index": 90,
-                        "position": [
+                        "rendered_position": [
                             225.0,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             10.0,
                             6.0
                         ],
@@ -129,11 +129,11 @@
                     {
                         "character": "o",
                         "glyph_index": 82,
-                        "position": [
+                        "rendered_position": [
                             234.296875,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             7.0,
                             6.0
                         ],
@@ -142,11 +142,11 @@
                     {
                         "character": "r",
                         "glyph_index": 85,
-                        "position": [
+                        "rendered_position": [
                             241.515625,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             4.0,
                             6.0
                         ],
@@ -155,11 +155,11 @@
                     {
                         "character": "l",
                         "glyph_index": 79,
-                        "position": [
+                        "rendered_position": [
                             246.421875,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             1.0,
                             9.0
                         ],
@@ -168,11 +168,11 @@
                     {
                         "character": "d",
                         "glyph_index": 71,
-                        "position": [
+                        "rendered_position": [
                             249.453125,
                             280.0
                         ],
-                        "size": [
+                        "rendered_size": [
                             7.0,
                             9.0
                         ],

@@ -500,20 +500,20 @@ class _TextLayout:
 
 
 class TextGlyph(NamedTuple):
-    bounding_box: FBoundingBox2d
+    rendered_bounding_box: FBoundingBox2d
     character: str
     glyph_index: int
     font_face_size: FontFaceSize
 
 
 class TextLine(NamedTuple):
-    bounding_box: FBoundingBox2d
+    rendered_bounding_box: FBoundingBox2d
     glyphs: tuple[TextGlyph, ...]
 
 
 class TextLayout(NamedTuple):
     rich_text: tuple[RichText, ...]
-    bounding_box: FBoundingBox2d
+    rendered_bounding_box: FBoundingBox2d
     lines: tuple[TextLine, ...]
 
     @property
