@@ -18,27 +18,5 @@
         "max_line_size": null,
         "line_height": 32
     },
-    "text_layout": {
-        "rendered_position": [
-            235.359375,
-            224.0
-        ],
-        "rendered_size": [
-            20.640625,
-            32.0
-        ],
-        "lines": [
-            {
-                "rendered_position": [
-                    235.359375,
-                    224.0
-                ],
-                "rendered_size": [
-                    20.640625,
-                    32.0
-                ],
-                "glyphs": []
-            }
-        ]
-    }
+    "text_layout": null
 }

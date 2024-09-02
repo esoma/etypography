@@ -20,21 +20,21 @@
     },
     "text_layout": {
         "rendered_position": [
-            229.984375,
+            229.734375,
             256.0
         ],
         "rendered_size": [
-            26.015625,
+            26.265625,
             96.0
         ],
         "lines": [
             {
                 "rendered_position": [
-                    229.984375,
+                    229.734375,
                     256.0
                 ],
                 "rendered_size": [
-                    26.015625,
+                    26.265625,
                     32.0
                 ],
                 "glyphs": [
@@ -84,11 +84,11 @@
             },
             {
                 "rendered_position": [
-                    231.640625,
+                    230.671875,
                     288.0
                 ],
                 "rendered_size": [
-                    24.359375,
+                    25.328125,
                     32.0
                 ],
                 "glyphs": [
@@ -96,7 +96,7 @@
                         "character": "d",
                         "glyph_index": 71,
                         "rendered_position": [
-                            232.0,
+                            231.0,
                             316.0
                         ],
                         "rendered_size": [
@@ -110,7 +110,7 @@
                         "character": "e",
                         "glyph_index": 72,
                         "rendered_position": [
-                            242.46875,
+                            241.46875,
                             316.0
                         ],
                         "rendered_size": [
@@ -124,7 +124,7 @@
                         "character": "f",
                         "glyph_index": 73,
                         "rendered_position": [
-                            252.328125,
+                            251.328125,
                             316.0
                         ],
                         "rendered_size": [

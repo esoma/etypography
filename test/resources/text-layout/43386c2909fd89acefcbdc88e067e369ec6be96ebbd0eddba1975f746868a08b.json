@@ -30,21 +30,21 @@
     },
     "text_layout": {
         "rendered_position": [
-            201.234375,
+            202.671875,
             231.5
         ],
         "rendered_size": [
-            54.765625,
+            53.328125,
             49.0
         ],
         "lines": [
             {
                 "rendered_position": [
-                    201.234375,
+                    202.671875,
                     231.5
                 ],
                 "rendered_size": [
-                    54.765625,
+                    53.328125,
                     33.0
                 ],
                 "glyphs": [
@@ -52,7 +52,7 @@
                         "character": "h",
                         "glyph_index": 75,
                         "rendered_position": [
-                            202.0,
+                            203.0,
                             256.0
                         ],
                         "rendered_size": [
@@ -66,7 +66,7 @@
                         "character": "e",
                         "glyph_index": 72,
                         "rendered_position": [
-                            216.71875,
+                            217.71875,
                             256.0
                         ],
                         "rendered_size": [
@@ -80,7 +80,7 @@
                         "character": "l",
                         "glyph_index": 79,
                         "rendered_position": [
-                            230.203125,
+                            231.203125,
                             256.0
                         ],
                         "rendered_size": [
@@ -94,7 +94,7 @@
                         "character": "l",
                         "glyph_index": 79,
                         "rendered_position": [
-                            236.265625,
+                            237.265625,
                             256.0
                         ],
                         "rendered_size": [
@@ -108,7 +108,7 @@
                         "character": "o",
                         "glyph_index": 82,
                         "rendered_position": [
-                            242.328125,
+                            243.328125,
                             256.0
                         ],
                         "rendered_size": [

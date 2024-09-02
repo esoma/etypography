@@ -314,11 +314,21 @@ class _TextLineLayout:
         return self.position + self.size
 
     @property
-    def rendered_size(self) -> FVector2:
+    def rendered_bounding_box(self) -> FBoundingBox2d:
+        position_x = 0.0
+        extent_x = 0.0
+        for glyph in self.glyphs:
+            if glyph.is_rendered:
+                position_x = glyph.rendered_position.x
+                break
         for glyph in reversed(self.glyphs):
             if glyph.is_rendered:
-                return FVector2(glyph.rendered_extent.x, self.size.y)
-        return FVector2(0)
+                extent_x = glyph.rendered_extent.x
+                break
+        return FBoundingBox2d(
+            FVector2(self.position.x + position_x, self.position.y),
+            FVector2(extent_x - position_x, self.size.y),
+        )
 
 
 class _TextLayout:
@@ -369,7 +379,7 @@ class _TextLayout:
             min(line.position.x for line in self.lines), self.lines[0].position.y
         )
         self.size = FVector2(
-            max(line.rendered_size.x for line in self.lines),
+            max(line.rendered_bounding_box.size.x for line in self.lines),
             self.lines[-1].extent.y - self.position.y,
         )
 
@@ -444,11 +454,11 @@ class _TextLayout:
 
     def _h_align_center(self) -> None:
         for line in self.lines:
-            line.position -= line.rendered_size.xo * 0.5
+            line.position -= line.rendered_bounding_box.size.xo * 0.5
 
     def _h_align_end(self) -> None:
         for line in self.lines:
-            line.position -= line.rendered_size.xo
+            line.position -= line.rendered_bounding_box.size.xo
 
     def _v_align(self, align: SecondaryAxisTextAlign) -> None:
         getattr(self, f"_v_align_{align.value}")()
@@ -481,7 +491,7 @@ class _TextLayout:
             FBoundingBox2d(origin + self.position, self.size),
             tuple(
                 TextLine(
-                    FBoundingBox2d(origin + line.position, line.rendered_size),
+                    line.rendered_bounding_box.translate(origin),
                     tuple(
                         TextGlyph(
                             FBoundingBox2d(
@@ -498,7 +508,7 @@ class _TextLayout:
                     ),
                 )
                 for line in self.lines
-                if line.rendered_size
+                if line.rendered_bounding_box.size
             ),
         )
 

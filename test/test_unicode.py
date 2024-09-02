@@ -8,12 +8,12 @@ import pytest
 @pytest.mark.parametrize(
     "character, result",
     [
-        (" ", True),
+        (" ", False),
         ("\n", False),
         ("\t", False),
         ("\r", False),
-        ("\u2028", True),
-        ("\u2029", True),
+        ("\u2028", False),
+        ("\u2029", False),
         ("a", True),
         ("A", True),
         ("食", True),
