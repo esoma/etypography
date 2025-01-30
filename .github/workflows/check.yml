@@ -38,7 +38,9 @@ jobs:
         brew install icu4c
 
     - name: Install Poetry
-      uses: snok/install-poetry@v1
+      uses: snok/install-poetry@v1.3.2
+      with:
+        version: 1.8.5
 
     - name: Install
       run: |
