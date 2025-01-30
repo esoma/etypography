@@ -1,10 +1,10 @@
 [project]
-name = "egraphics"
+name = "etypography"
 requires-python = ">=3.12"
 
 [tool.poetry]
 name = "etypography"
-version = "0.4.0"
+version = "0.4.1"
 description = "Layout text."
 authors = ["Erik Soma <stillusingirc@gmail.com>"]
 
