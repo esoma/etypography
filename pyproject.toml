@@ -1,3 +1,7 @@
+[project]
+name = "egraphics"
+requires-python = ">=3.12"
+
 [tool.poetry]
 name = "etypography"
 version = "0.4.0"
