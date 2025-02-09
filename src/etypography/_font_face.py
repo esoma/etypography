@@ -269,6 +269,7 @@ class _PositionedGlyph:
     is_rendered: bool
     font_face_size: FontFaceSize
     line_size: float
+    rich_text_index: tuple[int, int]
 
     @property
     def rendered_extent(self) -> FVector2:
@@ -405,7 +406,7 @@ class _TextLayout:
             hb_buffer.add_str(text)
             hb_shape(hb_font, hb_buffer, {})
 
-            for info, pos in zip(hb_buffer.glyph_infos, hb_buffer.glyph_positions):
+            for i, (info, pos) in enumerate(zip(hb_buffer.glyph_infos, hb_buffer.glyph_positions)):
                 c = text[info.cluster]
                 chunk_glyphs.append(
                     _PositionedGlyph(
@@ -416,6 +417,7 @@ class _TextLayout:
                         self.is_character_rendered(c),
                         size,
                         size._line_size.y if self.line_height is None else self.line_height,
+                        (rich_text_i, rich_text_start + i),
                     )
                 )
                 pen_position += FVector2(pos.x_advance / 64.0, pos.y_advance / 64.0)
@@ -502,6 +504,8 @@ class _TextLayout:
                             glyph.glyph_index,
                             glyph.font_face_size,
                             glyph.is_rendered,
+                            glyph.rich_text_index[0],
+                            glyph.rich_text_index[1],
                         )
                         for glyph in line.glyphs
                         if glyph.rendered_size
@@ -519,6 +523,8 @@ class TextGlyph(NamedTuple):
     glyph_index: int
     font_face_size: FontFaceSize
     is_rendered: bool
+    rich_text_index: int
+    rich_text_text_index: int
 
 
 class TextLine(NamedTuple):

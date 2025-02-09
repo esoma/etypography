@@ -50,7 +50,9 @@
                             13.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
-                        "is_rendered": true
+                        "is_rendered": true,
+                        "rich_text_index": 0,
+                        "rich_text_text_index": 0
                     },
                     {
                         "character": "b",
@@ -64,7 +66,9 @@
                             18.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
-                        "is_rendered": true
+                        "is_rendered": true,
+                        "rich_text_index": 0,
+                        "rich_text_text_index": 2
                     },
                     {
                         "character": "c",
@@ -78,7 +82,9 @@
                             13.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
-                        "is_rendered": true
+                        "is_rendered": true,
+                        "rich_text_index": 0,
+                        "rich_text_text_index": 4
                     },
                     {
                         "character": "d",
@@ -92,7 +98,9 @@
                             18.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
-                        "is_rendered": true
+                        "is_rendered": true,
+                        "rich_text_index": 0,
+                        "rich_text_text_index": 6
                     },
                     {
                         "character": "e",
@@ -106,7 +114,9 @@
                             13.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
-                        "is_rendered": true
+                        "is_rendered": true,
+                        "rich_text_index": 0,
+                        "rich_text_text_index": 8
                     },
                     {
                         "character": "f",
@@ -120,7 +130,9 @@
                             18.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
-                        "is_rendered": true
+                        "is_rendered": true,
+                        "rich_text_index": 0,
+                        "rich_text_text_index": 10
                     },
                     {
                         "character": "g",
@@ -134,7 +146,9 @@
                             19.0
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
-                        "is_rendered": true
+                        "is_rendered": true,
+                        "rich_text_index": 0,
+                        "rich_text_text_index": 12
                     }
                 ]
             }
