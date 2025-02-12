@@ -269,7 +269,7 @@ def test_face_size_layout_text(
         result = size.layout_text(text, **kwargs)
     assert layout_text.return_value is result
     layout_text.assert_called_once_with(
-        (RichText(text, size),),
+        (RichText(text, size, None),),
         break_text=break_text,
         max_line_size=max_line_size,
         is_character_rendered=is_character_rendered,
@@ -342,10 +342,10 @@ def test_layout_text(
 
     text_layout = MagicMock()
     with patch("etypography._font_face._TextLayout", return_value=text_layout) as TextLayoutMock:
-        result = layout_text((RichText(text, size),), **kwargs)
+        result = layout_text((RichText(text, size, None),), **kwargs)
 
     TextLayoutMock.assert_called_once_with(
-        (RichText(text, size),),
+        (RichText(text, size, None),),
         expected_break_text,
         expected_max_line_size,
         expected_is_character_rendered,
@@ -378,7 +378,7 @@ def test_text_layout(resource_dir, fixture_file_path):
         get_face_size = getattr(face, rich_text_fixture["size"]["method"])
         face_size = get_face_size(**rich_text_fixture["size"]["kwargs"])
         font_face_sizes[repr(face_size)] = face_size
-        rich_text.append(RichText(rich_text_fixture["text"], face_size))
+        rich_text.append(RichText(rich_text_fixture["text"], face_size, None))
 
     text_layout = layout_text(
         rich_text,

@@ -43,6 +43,7 @@ from abc import abstractmethod
 from dataclasses import dataclass
 from enum import Enum
 from enum import StrEnum
+from typing import Any
 from typing import BinaryIO
 from typing import Callable
 from typing import Generator
@@ -66,6 +67,7 @@ class RenderedGlyphFormat(Enum):
 class RichText(NamedTuple):
     text: str
     size: FontFaceSize
+    user_data: Any
 
 
 class RichTextRange(NamedTuple):
@@ -596,7 +598,7 @@ class FontFaceSize(ABC):
         origin: FVector2 | None = None,
     ) -> TextLayout | None:
         return layout_text(
-            (RichText(text, self),),
+            (RichText(text, self, None),),
             break_text=break_text,
             max_line_size=max_line_size,
             is_character_rendered=is_character_rendered,

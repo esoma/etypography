@@ -99,7 +99,7 @@ def main():
                 font_face = FontFace(font_file)
             font_face_method = getattr(font_face, font_size_method_name)
             font_face_size = font_face_method(**font_size_kwargs)
-            rich_text.append(RichText(text, font_face_size))
+            rich_text.append(RichText(text, font_face_size, None))
 
         break_text = getattr(etypography, break_text_name)
         text_layout = layout_text(
