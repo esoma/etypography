@@ -4,7 +4,7 @@ requires-python = ">=3.12"
 
 [tool.poetry]
 name = "etypography"
-version = "0.6.0"
+version = "0.7.0"
 description = "Layout text."
 authors = ["Erik Soma <stillusingirc@gmail.com>"]
 
