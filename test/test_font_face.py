@@ -9,6 +9,7 @@ from etypography import PrimaryAxisTextAlign
 from etypography import RenderedGlyphFormat
 from etypography import RichText
 from etypography import SecondaryAxisTextAlign
+from etypography import TextLayout
 from etypography import break_text_never
 from etypography import character_is_normally_rendered
 from etypography import layout_text
@@ -397,7 +398,7 @@ def test_text_layout(resource_dir, fixture_file_path):
     if text_layout is None:
         assert fixture["text_layout"] is None
     else:
-        assert text_layout == (
+        assert text_layout == TextLayout(
             tuple(rich_text),
             FBoundingBox2d(
                 FVector2(*fixture["text_layout"]["rendered_position"]),

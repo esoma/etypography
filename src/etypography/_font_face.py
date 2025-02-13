@@ -43,18 +43,21 @@ from abc import abstractmethod
 from dataclasses import dataclass
 from enum import Enum
 from enum import StrEnum
-from typing import Any
 from typing import BinaryIO
 from typing import Callable
 from typing import Generator
+from typing import Generic
 from typing import NamedTuple
 from typing import Sequence
+from typing import TypeVar
 
 # uharfbuzz
 from uharfbuzz import Buffer as HbBuffer
 from uharfbuzz import Face as HbFace
 from uharfbuzz import Font as HbFont
 from uharfbuzz import shape as hb_shape
+
+_T = TypeVar("_T")
 
 
 class RenderedGlyphFormat(Enum):
@@ -64,10 +67,11 @@ class RenderedGlyphFormat(Enum):
     LCD_V = FT_RENDER_MODE_LCD_V
 
 
-class RichText(NamedTuple):
+@dataclass(slots=True, frozen=True)
+class RichText(Generic[_T]):
     text: str
     size: FontFaceSize
-    user_data: Any
+    user_data: _T
 
 
 class RichTextRange(NamedTuple):
@@ -217,7 +221,7 @@ class FontFace:
 
 
 def layout_text(
-    rich_text: Sequence[RichText],
+    rich_text: Sequence[RichText[_T]],
     *,
     break_text: BreakText | None = None,
     max_line_size: int | None = None,
@@ -226,7 +230,7 @@ def layout_text(
     primary_axis_alignment: PrimaryAxisTextAlign | None = None,
     secondary_axis_alignment: SecondaryAxisTextAlign | None = None,
     origin: FVector2 | None = None,
-) -> TextLayout | None:
+) -> TextLayout[_T] | None:
     if break_text is None:
         break_text = break_text_never
     if is_character_rendered is None:
@@ -334,10 +338,10 @@ class _TextLineLayout:
         )
 
 
-class _TextLayout:
+class _TextLayout(Generic[_T]):
     def __init__(
         self,
-        rich_text: Sequence[RichText],
+        rich_text: Sequence[RichText[_T]],
         break_text: BreakText,
         max_line_size: int | None,
         is_character_rendered: Callable[[str], bool],
@@ -389,7 +393,7 @@ class _TextLayout:
     def _add_chunk(
         self,
         chunk: BreakTextChunk,
-        rich_texts: Sequence[RichText],
+        rich_texts: Sequence[RichText[_T]],
         rich_text_ranges: Sequence[RichTextRange],
     ) -> None:
         chunk_glyphs: list[_PositionedGlyph] = []
@@ -487,7 +491,7 @@ class _TextLayout:
         for line in self.lines:
             line.position -= baseline
 
-    def to_text_layout(self, origin: FVector2) -> TextLayout | None:
+    def to_text_layout(self, origin: FVector2) -> TextLayout[_T] | None:
         if not self.size:
             return None
         return TextLayout(
@@ -534,8 +538,9 @@ class TextLine(NamedTuple):
     glyphs: tuple[TextGlyph, ...]
 
 
-class TextLayout(NamedTuple):
-    rich_text: tuple[RichText, ...]
+@dataclass
+class TextLayout(Generic[_T]):
+    rich_text: tuple[RichText[_T], ...]
     rendered_bounding_box: FBoundingBox2d
     lines: tuple[TextLine, ...]
 
