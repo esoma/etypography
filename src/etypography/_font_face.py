@@ -275,6 +275,7 @@ class _PositionedGlyph:
     is_rendered: bool
     font_face_size: FontFaceSize
     line_size: float
+    text_index: int
     rich_text_index: tuple[int, int]
 
     @property
@@ -361,6 +362,7 @@ class _TextLayout(Generic[_T]):
             rich_text_iter = iter(enumerate(rich_text))
             ni, current_rich_text = next(rich_text_iter)
             ri = 0
+            i_offset = 0
             for chunk in break_text(full_text):
                 chunk_length = len(chunk.text)
                 rich_text_ranges: list[RichTextRange] = []
@@ -377,7 +379,8 @@ class _TextLayout(Generic[_T]):
                         ri = end
                     if start != end:
                         rich_text_ranges.append(RichTextRange(i, start, end))
-                self._add_chunk(chunk, rich_text, rich_text_ranges)
+                self._add_chunk(chunk, rich_text, rich_text_ranges, i_offset)
+                i_offset += len(chunk.text)
 
         self._h_align(primary_axis_alignment)
         self._v_align(secondary_axis_alignment)
@@ -395,6 +398,7 @@ class _TextLayout(Generic[_T]):
         chunk: BreakTextChunk,
         rich_texts: Sequence[RichText[_T]],
         rich_text_ranges: Sequence[RichTextRange],
+        text_index: int,
     ) -> None:
         chunk_glyphs: list[_PositionedGlyph] = []
         pen_position = FVector2(0)
@@ -423,10 +427,12 @@ class _TextLayout(Generic[_T]):
                         self.is_character_rendered(c),
                         size,
                         size._line_size.y if self.line_height is None else self.line_height,
+                        text_index,
                         (rich_text_i, rich_text_start + i),
                     )
                 )
                 pen_position += FVector2(pos.x_advance / 64.0, pos.y_advance / 64.0)
+                text_index += 1
 
         self._add_chunk_glyphs(chunk, chunk_glyphs, pen_position)
 
@@ -510,6 +516,7 @@ class _TextLayout(Generic[_T]):
                             glyph.glyph_index,
                             glyph.font_face_size,
                             glyph.is_rendered,
+                            glyph.text_index,
                             glyph.rich_text_index[0],
                             glyph.rich_text_index[1],
                         )
@@ -529,6 +536,7 @@ class TextGlyph(NamedTuple):
     glyph_index: int
     font_face_size: FontFaceSize
     is_rendered: bool
+    text_index: int
     rich_text_index: int
     rich_text_text_index: int
 

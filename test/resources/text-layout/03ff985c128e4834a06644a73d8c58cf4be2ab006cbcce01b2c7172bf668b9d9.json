@@ -51,6 +51,7 @@
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
                         "is_rendered": true,
+                        "text_index": 0,
                         "rich_text_index": 0,
                         "rich_text_text_index": 0
                     }
@@ -79,6 +80,7 @@
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
                         "is_rendered": true,
+                        "text_index": 2,
                         "rich_text_index": 0,
                         "rich_text_text_index": 2
                     }
@@ -107,6 +109,7 @@
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
                         "is_rendered": true,
+                        "text_index": 4,
                         "rich_text_index": 0,
                         "rich_text_text_index": 4
                     }
@@ -135,6 +138,7 @@
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
                         "is_rendered": true,
+                        "text_index": 6,
                         "rich_text_index": 0,
                         "rich_text_text_index": 6
                     }
@@ -163,6 +167,7 @@
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
                         "is_rendered": true,
+                        "text_index": 8,
                         "rich_text_index": 0,
                         "rich_text_text_index": 8
                     }
@@ -191,6 +196,7 @@
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
                         "is_rendered": true,
+                        "text_index": 10,
                         "rich_text_index": 0,
                         "rich_text_text_index": 10
                     },
@@ -207,6 +213,7 @@
                         ],
                         "font_face_size": "<FontFaceSize for 'OpenSans-Regular' of UVector2(24, 24)>",
                         "is_rendered": true,
+                        "text_index": 12,
                         "rich_text_index": 0,
                         "rich_text_text_index": 12
                     }

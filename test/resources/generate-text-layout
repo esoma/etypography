@@ -189,6 +189,7 @@ def main():
                                 "rendered_size": tuple(glyph.rendered_bounding_box.size),
                                 "font_face_size": repr(glyph.font_face_size),
                                 "is_rendered": glyph.is_rendered,
+                                "text_index": glyph.text_index,
                                 "rich_text_index": glyph.rich_text_index,
                                 "rich_text_text_index": glyph.rich_text_text_index,
                             }
