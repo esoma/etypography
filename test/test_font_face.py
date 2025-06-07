@@ -411,6 +411,7 @@ def test_text_layout(resource_dir, fixture_file_path):
                     ),
                     tuple(
                         (
+                            FVector2(*glyph["advance_position"]),
                             FBoundingBox2d(
                                 FVector2(*glyph["rendered_position"]),
                                 FVector2(*glyph["rendered_size"]),
@@ -431,6 +432,7 @@ def test_text_layout(resource_dir, fixture_file_path):
         )
         assert tuple(text_layout.glyphs) == tuple(
             (
+                FVector2(*glyph["advance_position"]),
                 FBoundingBox2d(
                     FVector2(*glyph["rendered_position"]), FVector2(*glyph["rendered_size"])
                 ),

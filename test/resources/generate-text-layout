@@ -183,6 +183,7 @@ def main():
                         "rendered_size": tuple(line.rendered_bounding_box.size),
                         "glyphs": [
                             {
+                                "advance_position": tuple(glyph.advance_position),
                                 "character": glyph.character,
                                 "glyph_index": glyph.glyph_index,
                                 "rendered_position": tuple(glyph.rendered_bounding_box.position),

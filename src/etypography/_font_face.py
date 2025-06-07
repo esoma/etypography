@@ -270,6 +270,7 @@ class SecondaryAxisTextAlign(StrEnum):
 class _PositionedGlyph:
     character: str
     glyph_index: int
+    advance_position: FVector2
     rendered_position: FVector2
     rendered_size: FVector2
     is_rendered: bool
@@ -384,6 +385,7 @@ class _TextLayout(Generic[_T]):
 
         self._h_align(primary_axis_alignment)
         self._v_align(secondary_axis_alignment)
+        self._fix_last_glyph_per_line_advance_position()
 
         self.position = FVector2(
             min(line.position.x for line in self.lines), self.lines[0].position.y
@@ -392,6 +394,18 @@ class _TextLayout(Generic[_T]):
             max(line.rendered_bounding_box.size.x for line in self.lines),
             self.lines[-1].extent.y - self.position.y,
         )
+
+    def _fix_last_glyph_per_line_advance_position(self) -> None:
+        for i, line in enumerate(self.lines):
+            try:
+                next_line = self.lines[i + 1]
+            except IndexError:
+                break
+            try:
+                last_glyph = line.glyphs[-1]
+            except IndexError:
+                continue
+            last_glyph.advance_position = -line.baseline + next_line.baseline
 
     def _add_chunk(
         self,
@@ -422,6 +436,7 @@ class _TextLayout(Generic[_T]):
                     _PositionedGlyph(
                         c,
                         info.codepoint,
+                        pen_position + FVector2(pos.x_advance / 64.0, 0),
                         pen_position + FVector2(pos.x_offset / 64.0, pos.y_offset / 64.0),
                         size._face._get_glyph_size(info.codepoint, size),
                         self.is_character_rendered(c),
@@ -508,6 +523,7 @@ class _TextLayout(Generic[_T]):
                     line.rendered_bounding_box.translate(origin),
                     tuple(
                         TextGlyph(
+                            origin + line.baseline + glyph.advance_position,
                             FBoundingBox2d(
                                 origin + line.baseline + glyph.rendered_position,
                                 glyph.rendered_size,
@@ -521,7 +537,6 @@ class _TextLayout(Generic[_T]):
                             glyph.rich_text_index[1],
                         )
                         for glyph in line.glyphs
-                        if glyph.rendered_size
                     ),
                 )
                 for line in self.lines
@@ -531,6 +546,7 @@ class _TextLayout(Generic[_T]):
 
 
 class TextGlyph(NamedTuple):
+    advance_position: FVector2
     rendered_bounding_box: FBoundingBox2d
     character: str
     glyph_index: int

@@ -39,6 +39,10 @@
                 ],
                 "glyphs": [
                     {
+                        "advance_position": [
+                            192.34375,
+                            248.0
+                        ],
                         "character": "a",
                         "glyph_index": 68,
                         "rendered_position": [
@@ -56,6 +60,10 @@
                         "rich_text_text_index": 0
                     },
                     {
+                        "advance_position": [
+                            207.03125,
+                            248.0
+                        ],
                         "character": "b",
                         "glyph_index": 69,
                         "rendered_position": [
@@ -73,6 +81,10 @@
                         "rich_text_text_index": 1
                     },
                     {
+                        "advance_position": [
+                            218.53125,
+                            248.0
+                        ],
                         "character": "c",
                         "glyph_index": 70,
                         "rendered_position": [
@@ -90,6 +102,10 @@
                         "rich_text_text_index": 2
                     },
                     {
+                        "advance_position": [
+                            233.21875,
+                            248.0
+                        ],
                         "character": "d",
                         "glyph_index": 71,
                         "rendered_position": [
@@ -107,6 +123,10 @@
                         "rich_text_text_index": 3
                     },
                     {
+                        "advance_position": [
+                            246.703125,
+                            248.0
+                        ],
                         "character": "e",
                         "glyph_index": 72,
                         "rendered_position": [
@@ -124,6 +144,10 @@
                         "rich_text_text_index": 4
                     },
                     {
+                        "advance_position": [
+                            254.78125,
+                            248.0
+                        ],
                         "character": "f",
                         "glyph_index": 73,
                         "rendered_position": [
