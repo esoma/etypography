@@ -1,8 +1,6 @@
-# etypography
-from etypography import character_is_normally_rendered
-
-# pytest
 import pytest
+
+from etypography import character_is_normally_rendered
 
 
 @pytest.mark.parametrize(

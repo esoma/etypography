@@ -1,7 +1,13 @@
-# etypography
-from . import resources
+import json
+from pathlib import Path
+from unittest.mock import MagicMock
+from unittest.mock import patch
 
-# etypography
+import pytest
+from egeometry import FBoundingBox2d
+from emath import FVector2
+from emath import UVector2
+
 import etypography
 from etypography import FontFace
 from etypography import FontFaceSize
@@ -14,21 +20,7 @@ from etypography import break_text_never
 from etypography import character_is_normally_rendered
 from etypography import layout_text
 
-# egeometry
-from egeometry import FBoundingBox2d
-
-# emath
-from emath import FVector2
-from emath import UVector2
-
-# pytest
-import pytest
-
-# python
-import json
-from pathlib import Path
-from unittest.mock import MagicMock
-from unittest.mock import patch
+from . import resources
 
 
 @pytest.fixture(params=["OpenSans-Regular.ttf"])
@@ -56,10 +48,7 @@ def test_get_glyph_index(face, character):
     assert isinstance(glyph_index, int)
 
 
-@pytest.mark.parametrize(
-    "character",
-    ["", "aZ", "食食"],
-)
+@pytest.mark.parametrize("character", ["", "aZ", "食食"])
 def test_get_glyph_index_invalid_length(face, character):
     with pytest.raises(ValueError) as excinfo:
         face.get_glyph_index(character)
@@ -74,20 +63,10 @@ def test_request_point_size_no_dimensions(face) -> None:
 
 @pytest.mark.parametrize(
     "width, height",
-    [
-        (10, None),
-        (None, 10),
-        (10, 10),
-        (20, None),
-        (None, 20),
-        (20, 20),
-        (20, 25),
-        (25, 20),
-    ],
+    [(10, None), (None, 10), (10, 10), (20, None), (None, 20), (20, 20), (20, 25), (25, 20)],
 )
 @pytest.mark.parametrize(
-    "dpi",
-    [None, UVector2(72, 72), UVector2(144, 72), UVector2(72, 144), UVector2(144, 144)],
+    "dpi", [None, UVector2(72, 72), UVector2(144, 72), UVector2(72, 144), UVector2(144, 144)]
 )
 def test_request_point_size(face, width, height, dpi):
     kwargs = {}
@@ -124,16 +103,7 @@ def test_request_pixel_size_no_dimensions(face):
 
 @pytest.mark.parametrize(
     "width, height",
-    [
-        (10, None),
-        (None, 10),
-        (10, 10),
-        (20, None),
-        (None, 20),
-        (20, 20),
-        (20, 25),
-        (25, 20),
-    ],
+    [(10, None), (None, 10), (10, 10), (20, None), (None, 20), (20, 20), (20, 25), (25, 20)],
 )
 def test_request_pixel_size(face, width, height) -> None:
     kwargs = {}
@@ -142,8 +112,7 @@ def test_request_pixel_size(face, width, height) -> None:
     if height is not None:
         kwargs["height"] = height
     expected_nominal_size = UVector2(
-        height if width is None else width,
-        width if height is None else height,
+        height if width is None else width, width if height is None else height
     )
 
     size = face.request_pixel_size(**kwargs)
@@ -332,9 +301,9 @@ def test_layout_text(
     if secondary_axis_alignment is None:
         expected_secondary_axis_alignment = SecondaryAxisTextAlign.BEGIN
     else:
-        kwargs[
-            "secondary_axis_alignment"
-        ] = expected_secondary_axis_alignment = secondary_axis_alignment
+        kwargs["secondary_axis_alignment"] = expected_secondary_axis_alignment = (
+            secondary_axis_alignment
+        )
 
     if origin is None:
         expected_origin = FVector2(0)

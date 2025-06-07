@@ -3,6 +3,8 @@ from __future__ import annotations
 __all__ = ["BreakText", "BreakTextChunk", "break_text_never", "break_text_icu_line"]
 
 # python
+import os
+import subprocess
 from ctypes import CDLL
 from ctypes import POINTER
 from ctypes import byref
@@ -11,9 +13,7 @@ from ctypes import c_int
 from ctypes import c_int32
 from ctypes import c_int64
 from ctypes import c_void_p
-import os
 from platform import system
-import subprocess
 from typing import Any
 from typing import Callable
 from typing import Final

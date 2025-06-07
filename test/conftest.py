@@ -1,11 +1,8 @@
-# etypography
-from . import resources
+from pathlib import Path
 
-# pytest
 import pytest
 
-# python
-from pathlib import Path
+from . import resources
 
 
 @pytest.fixture

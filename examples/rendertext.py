@@ -1,21 +1,16 @@
 __all__ = ()
 
-# etypography
+import re
+from pathlib import Path
+
+import click
+from PIL import Image
+
 from etypography import Font
 from etypography import FontFace
 from etypography import PrimaryAxisTextAlign
 from etypography import SecondaryAxisTextAlign
 from etypography import break_text_icu_line
-
-# click
-import click
-
-# pillow
-from PIL import Image
-
-# python
-from pathlib import Path
-import re
 
 EXAMPLES_DIRECTORY = Path(__file__).parent
 

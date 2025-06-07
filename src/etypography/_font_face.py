@@ -15,29 +15,6 @@ __all__ = [
 ]
 
 
-# etypography
-from ._break_text import BreakText
-from ._break_text import BreakTextChunk
-from ._break_text import break_text_never
-from ._unicode import character_is_normally_rendered
-
-# egeometry
-from egeometry import FBoundingBox2d
-
-# emath
-from emath import FVector2
-from emath import UVector2
-
-# freetype-py
-from freetype import FT_ENCODING_UNICODE
-from freetype import FT_Exception
-from freetype import FT_RENDER_MODE_LCD
-from freetype import FT_RENDER_MODE_LCD_V
-from freetype import FT_RENDER_MODE_LIGHT
-from freetype import FT_RENDER_MODE_SDF
-from freetype import Face as FtFace
-
-# python
 from abc import ABC
 from abc import abstractmethod
 from dataclasses import dataclass
@@ -51,11 +28,25 @@ from typing import NamedTuple
 from typing import Sequence
 from typing import TypeVar
 
-# uharfbuzz
-from uharfbuzz import Buffer as HbBuffer
-from uharfbuzz import Face as HbFace
-from uharfbuzz import Font as HbFont
-from uharfbuzz import shape as hb_shape
+from egeometry import FBoundingBox2d
+from emath import FVector2
+from emath import UVector2
+from freetype import FT_ENCODING_UNICODE  # type: ignore
+from freetype import FT_RENDER_MODE_LCD  # type: ignore
+from freetype import FT_RENDER_MODE_LCD_V  # type: ignore
+from freetype import FT_RENDER_MODE_LIGHT  # type: ignore
+from freetype import FT_RENDER_MODE_SDF  # type: ignore
+from freetype import Face as FtFace  # type: ignore
+from freetype import FT_Exception  # type: ignore
+from uharfbuzz import Buffer as HbBuffer  # type: ignore
+from uharfbuzz import Face as HbFace  # type: ignore
+from uharfbuzz import Font as HbFont  # type: ignore
+from uharfbuzz import shape as hb_shape  # type: ignore
+
+from ._break_text import BreakText
+from ._break_text import BreakTextChunk
+from ._break_text import break_text_never
+from ._unicode import character_is_normally_rendered
 
 _T = TypeVar("_T")
 
@@ -120,10 +111,7 @@ class FontFace:
         )
 
     def request_pixel_size(
-        self,
-        *,
-        width: int | None = None,
-        height: int | None = None,
+        self, *, width: int | None = None, height: int | None = None
     ) -> FontFaceSize:
         if width is None and height is None:
             raise TypeError("width or height must be specified")
@@ -135,10 +123,7 @@ class FontFace:
         size._use()
         self._ft_face.load_glyph(character, 0)
         ft_glyph = self._ft_face.glyph
-        return FVector2(
-            ft_glyph.metrics.width / 64.0,
-            ft_glyph.metrics.height / 64.0,
-        )
+        return FVector2(ft_glyph.metrics.width / 64.0, ft_glyph.metrics.height / 64.0)
 
     def render_glyph(
         self,
@@ -292,10 +277,7 @@ class _TextLineLayout:
         self.glyphs: list[_PositionedGlyph] = []
 
     def add_glyphs(
-        self,
-        glyphs: Sequence[_PositionedGlyph],
-        advance: FVector2,
-        max_size: int | None,
+        self, glyphs: Sequence[_PositionedGlyph], advance: FVector2, max_size: int | None
     ) -> bool:
         if max_size is not None and self.extent.x + advance.x > max_size:
             if self.glyphs:
@@ -452,27 +434,16 @@ class _TextLayout(Generic[_T]):
         self._add_chunk_glyphs(chunk, chunk_glyphs, pen_position)
 
     def _add_chunk_glyphs(
-        self,
-        chunk: BreakTextChunk,
-        chunk_glyphs: Sequence[_PositionedGlyph],
-        advance: FVector2,
+        self, chunk: BreakTextChunk, chunk_glyphs: Sequence[_PositionedGlyph], advance: FVector2
     ) -> None:
-        glyphs_added = self.lines[-1].add_glyphs(
-            chunk_glyphs,
-            advance,
-            self.max_line_size,
-        )
+        glyphs_added = self.lines[-1].add_glyphs(chunk_glyphs, advance, self.max_line_size)
 
         if not glyphs_added or chunk.force_break:
             line = _TextLineLayout(FVector2(0, sum((l.size.y for l in self.lines))))
             self.lines.append(line)
 
             if not glyphs_added:
-                glyphs_added = line.add_glyphs(
-                    chunk_glyphs,
-                    advance,
-                    self.max_line_size,
-                )
+                glyphs_added = line.add_glyphs(chunk_glyphs, advance, self.max_line_size)
                 assert glyphs_added
 
     def _h_align(self, align: PrimaryAxisTextAlign) -> None:
@@ -586,8 +557,7 @@ class FontFaceSize(ABC):
         self._face = face
         self._use()
         self._nominal_size = UVector2(
-            self._face._ft_face.size.x_ppem,
-            self._face._ft_face.size.y_ppem,
+            self._face._ft_face.size.x_ppem, self._face._ft_face.size.y_ppem
         )
         self._scale = (
             self._face._ft_face.size.x_scale * self._face._ft_face.units_per_EM + (1 << 15) >> 16,
@@ -603,8 +573,7 @@ class FontFaceSize(ABC):
         return f"<FontFaceSize for {self._face.name!r} of {self.nominal_size}>"
 
     @abstractmethod
-    def _use(self) -> None:
-        ...
+    def _use(self) -> None: ...
 
     @property
     def face(self) -> FontFace:
@@ -644,7 +613,7 @@ class _PointFontFaceSize(FontFaceSize):
         super().__init__(face)
 
     def _use(self) -> None:
-        self.face._ft_face.set_char_size(*self._args)
+        self.face._ft_face.set_char_size(*self._args)  # type: ignore
 
 
 class _PixelFontFaceSize(FontFaceSize):
@@ -653,7 +622,7 @@ class _PixelFontFaceSize(FontFaceSize):
         super().__init__(face)
 
     def _use(self) -> None:
-        self.face._ft_face.set_pixel_sizes(*self._args)
+        self.face._ft_face.set_pixel_sizes(*self._args)  # type: ignore
 
 
 class _FixedFontFaceSize(FontFaceSize):

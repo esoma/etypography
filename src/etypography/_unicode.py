@@ -2,7 +2,6 @@ from __future__ import annotations
 
 __all__ = ["character_is_normally_rendered"]
 
-# python
 from unicodedata import category as unicode_category
 
 

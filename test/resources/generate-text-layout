@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 
-# etypography
+
+import hashlib
+import json
+import shutil
+from itertools import product
+from pathlib import Path
+
+import click
+from emath import FVector2
+from PIL import Image
+from PIL import ImageDraw
+
 import etypography
 from etypography import FontFace
 from etypography import PrimaryAxisTextAlign
@@ -8,38 +19,12 @@ from etypography import RichText
 from etypography import SecondaryAxisTextAlign
 from etypography import layout_text
 
-# click
-import click
-
-# emath
-from emath import FVector2
-
-# pillow
-from PIL import Image
-from PIL import ImageDraw
-
-# python
-import hashlib
-from itertools import product
-import json
-from pathlib import Path
-import shutil
-
 RESOURCE_DIRECTORY = Path(__file__).parent
 TEXT_LAYOUT_DIRECTORY = RESOURCE_DIRECTORY / "text-layout"
 
-TEXT = [
-    "abcdef",
-    "hello\nworld",
-    "a b c d e f g",
-    "\nhello\nworld\n",
-    " \n ",
-]
+TEXT = ["abcdef", "hello\nworld", "a b c d e f g", "\nhello\nworld\n", " \n "]
 FONT_FILES = ["OpenSans-Regular.ttf"]
-FONT_SIZE = [
-    ("request_pixel_size", {"height": 12}),
-    ("request_pixel_size", {"height": 24}),
-]
+FONT_SIZE = [("request_pixel_size", {"height": 12}), ("request_pixel_size", {"height": 24})]
 
 RICH_TEXT = [
     *(((t, f, m, k),) for t, f, (m, k) in product(TEXT, FONT_FILES, FONT_SIZE)),
@@ -65,14 +50,7 @@ def main():
     shutil.rmtree(TEXT_LAYOUT_DIRECTORY)
     TEXT_LAYOUT_DIRECTORY.mkdir()
 
-    for (
-        rich_text_params,
-        break_text_name,
-        max_line_size,
-        p_align,
-        s_align,
-        line_height,
-    ) in product(
+    for rich_text_params, break_text_name, max_line_size, p_align, s_align, line_height in product(
         RICH_TEXT,
         BREAK_TEXT,
         MAX_LINE_SIZE,
@@ -157,14 +135,7 @@ def main():
 
         data = {
             "rich_text": [
-                {
-                    "text": t,
-                    "size": {
-                        "font": f,
-                        "method": m,
-                        "kwargs": k,
-                    },
-                }
+                {"text": t, "size": {"font": f, "method": m, "kwargs": k}}
                 for t, f, m, k in rich_text_params
             ],
             "layout_text_kwargs": {

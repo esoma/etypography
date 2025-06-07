@@ -24,3 +24,10 @@ click = "^8.1.7"
 [build-system]
 requires = ["poetry-core", "setuptools==69.0.2"]
 build-backend = "poetry.core.masonry.api"
+
+[virtualenvs]
+in-project = true
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"

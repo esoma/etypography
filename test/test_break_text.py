@@ -1,10 +1,8 @@
-# etypography
+import pytest
+
 from etypography import BreakTextChunk
 from etypography import break_text_icu_line
 from etypography import break_text_never
-
-# pytest
-import pytest
 
 
 @pytest.mark.parametrize("func", [break_text_never, break_text_icu_line])

@@ -2,7 +2,10 @@ from __future__ import annotations
 
 __all__ = ["Font"]
 
-# etypography
+from typing import Callable
+
+from emath import FVector2
+
 from ._break_text import BreakText
 from ._font_face import FontFace
 from ._font_face import FontFaceSize
@@ -11,12 +14,6 @@ from ._font_face import RenderedGlyph
 from ._font_face import RenderedGlyphFormat
 from ._font_face import SecondaryAxisTextAlign
 from ._font_face import TextLayout
-
-# emath
-from emath import FVector2
-
-# python
-from typing import Callable
 
 
 class Font:

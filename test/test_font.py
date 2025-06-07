@@ -1,17 +1,12 @@
-# etypography
+from unittest.mock import Mock
+
+import pytest
+from emath import FVector2
+
 from etypography import Font
 from etypography import PrimaryAxisTextAlign
 from etypography import RenderedGlyphFormat
 from etypography import SecondaryAxisTextAlign
-
-# emath
-from emath import FVector2
-
-# pytest
-import pytest
-
-# python
-from unittest.mock import Mock
 
 
 def test_properties():
