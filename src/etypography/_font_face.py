@@ -583,6 +583,10 @@ class FontFaceSize(ABC):
     def nominal_size(self) -> UVector2:
         return self._nominal_size
 
+    @property
+    def line_size(self) -> FVector2:
+        return self._line_size
+
     def layout_text(
         self,
         text: str,
